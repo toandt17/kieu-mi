@@ -57,13 +57,11 @@ foreach ([
 
 if ($laravel === null) {
     if ($isApi) {
-        http_response_code(503);
-        header('Content-Type: application/json; charset=UTF-8');
-        echo json_encode([
-            'success' => false,
-            'message' => 'API chưa sẵn sàng. Mở /setup.php để cài đặt.',
-        ], JSON_UNESCAPED_UNICODE);
-        exit;
+        $lite = is_file(__DIR__.'/lite_api.php')
+            ? __DIR__.'/lite_api.php'
+            : '/home/fkssbbakhosting/repositories/kieu-mi/deploy/lite_api.php';
+        require $lite;
+        lite_handle($uri);
     }
 
     http_response_code(503);

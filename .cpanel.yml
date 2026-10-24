@@ -1,19 +1,11 @@
 ---
 deployment:
   tasks:
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/mi.daothanhtoan.com/index.html
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/mi.daothanhtoan.com/login.html
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.html
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/mi.daothanhtoan.com.vn/login.html
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/apple-touch-icon.png /home/fkssbbakhosting/mi.daothanhtoan.com/apple-touch-icon.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/apple-touch-icon.png /home/fkssbbakhosting/mi.daothanhtoan.com.vn/apple-touch-icon.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/km-192.png /home/fkssbbakhosting/mi.daothanhtoan.com/km-192.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/km-192.png /home/fkssbbakhosting/mi.daothanhtoan.com.vn/km-192.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/km-512.png /home/fkssbbakhosting/mi.daothanhtoan.com/km-512.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/km-512.png /home/fkssbbakhosting/mi.daothanhtoan.com.vn/km-512.png
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/manifest.json /home/fkssbbakhosting/mi.daothanhtoan.com/manifest.json
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/manifest.json /home/fkssbbakhosting/mi.daothanhtoan.com.vn/manifest.json
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com/.htaccess
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com.vn/.htaccess
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com/index.php
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/index.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/login.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/index.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/lite_api.php /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/lite_api.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/.htaccess
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/apple-touch-icon.png /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/apple-touch-icon.png
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/km-192.png /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/km-192.png
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/manifest.json /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/manifest.json
