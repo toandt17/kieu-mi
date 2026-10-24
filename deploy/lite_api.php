@@ -169,9 +169,6 @@ function lite_handle(string $uri): void
             $body = lite_body();
             $login = trim((string) ($body['login'] ?? ''));
             $pass = (string) ($body['password'] ?? '');
-            if ($login === 'admin@kieumi.vn') {
-                $login = 'admin@gmail.com';
-            }
             $st = lite_db()->prepare('SELECT * FROM users WHERE email = ? OR phone = ? LIMIT 1');
             $st->execute([$login, $login]);
             $user = $st->fetch();

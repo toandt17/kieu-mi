@@ -141,7 +141,7 @@ ENV;
     <p>Bản: 20261024-2</p>
     <p>Laravel: <code><?= h($laravel ?? 'chưa thấy') ?></code></p>
     <?php if ($done): ?>
-        <p class="ok">Xong. Mở <a href="/">trang chủ</a> — admin@kieumi.vn / password.</p>
+        <p class="ok">Xong. Mở <a href="/">trang chủ</a> — admin@kieumi.vn / password (hoặc nhanvien@kieumi.vn / password).</p>
         <p>Xóa file <code>setup.php</code> trên File Manager.</p>
     <?php else: ?>
         <?php if ($error): ?><p class="err"><?= h($error) ?></p><?php endif; ?>
