@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/fkssbbakhosting/mi.daothanhtoan.com
+    - export DEPLOYPATH=/home/fkssbbakhosting/mi.daothanhtoan.com.vn
     - /bin/mkdir -p $DEPLOYPATH/laravel $DEPLOYPATH/storage/products
     - /bin/cp -a backend/. $DEPLOYPATH/laravel/
     - /bin/cp -a frontend/build/web/. $DEPLOYPATH/
@@ -9,3 +9,8 @@ deployment:
     - /bin/cp -f deploy/.htaccess $DEPLOYPATH/.htaccess
     - /bin/cp -f deploy/laravel-deny.htaccess $DEPLOYPATH/laravel/.htaccess
     - /bin/cp -f deploy/setup.php $DEPLOYPATH/setup.php
+    - /bin/mkdir -p /home/fkssbbakhosting/mi.daothanhtoan.com
+    - /bin/cp -f deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com/setup.php
+    - /bin/cp -a frontend/build/web/. /home/fkssbbakhosting/mi.daothanhtoan.com/
+    - /bin/cp -f deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com/index.php
+    - /bin/cp -f deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com/.htaccess

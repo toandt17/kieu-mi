@@ -14,6 +14,7 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    RewriteRule ^setup\.php$ - [L]
     RewriteRule ^(api|up|storage)(/.*)?$ index.php [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME} !-d
