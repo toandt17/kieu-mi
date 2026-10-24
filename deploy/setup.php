@@ -2,15 +2,61 @@
 
 declare(strict_types=1);
 
-$siteRoot = __DIR__;
-$laravel = $siteRoot.'/laravel';
-$envPath = $laravel.'/.env';
-
 function h(string $v): string
 {
     return htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
 }
 
+function findLaravel(): ?string
+{
+    foreach ([
+        __DIR__.'/laravel',
+        dirname(__DIR__).'/mi.daothanhtoan.com/laravel',
+        dirname(__DIR__).'/mi.daothanhtoan.com.vn/laravel',
+        '/home/fkssbbakhosting/mi.daothanhtoan.com/laravel',
+        '/home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel',
+        '/home/fkssbbakhosting/repositories/kieu-mi/backend',
+    ] as $path) {
+        if (is_file($path.'/artisan') && is_file($path.'/bootstrap/app.php')) {
+            return $path;
+        }
+    }
+
+    return null;
+}
+
+function findSql(): ?string
+{
+    foreach ([
+        __DIR__.'/database.sql',
+        '/home/fkssbbakhosting/repositories/kieu-mi/deploy/database.sql',
+    ] as $path) {
+        if (is_file($path)) {
+            return $path;
+        }
+    }
+
+    return null;
+}
+
+function importSql(string $sqlFile, string $db, string $user, string $pass): string
+{
+    $pdo = new PDO(
+        'mysql:host=127.0.0.1;port=3306;dbname='.$db.';charset=utf8mb4',
+        $user,
+        $pass,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
+    $sql = file_get_contents($sqlFile);
+    if ($sql === false) {
+        throw new RuntimeException('Không đọc được database.sql');
+    }
+    $pdo->exec($sql);
+
+    return 'Đã import database.sql';
+}
+
+$laravel = findLaravel();
 $done = false;
 $error = null;
 $log = '';
@@ -21,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = (string) ($_POST['pass'] ?? '');
     $url = trim((string) ($_POST['url'] ?? 'https://mi.daothanhtoan.com'));
 
-    $env = <<<ENV
+    if ($laravel === null) {
+        $error = 'Không thấy source Laravel. Trong File Manager, copy folder /home/fkssbbakhosting/repositories/kieu-mi/backend vào thư mục website và đổi tên thành laravel (cùng chỗ với setup.php).';
+    } else {
+        $env = <<<ENV
 APP_NAME="Quản lý bán hàng"
 APP_ENV=production
 APP_KEY=base64:7IQVdXkvJST+g4Ex7SCWq/th0PI/gx1pjrZfkbkkYMc=
@@ -46,22 +95,26 @@ FILESYSTEM_DISK=public
 QUEUE_CONNECTION=sync
 CACHE_STORE=file
 ENV;
-
-    if (! is_dir($laravel)) {
-        $error = 'Không thấy folder laravel. Hãy Deploy lại trên Git Version Control.';
-    } elseif (file_put_contents($envPath, $env) === false) {
-        $error = 'Không ghi được file .env. Chỉnh quyền folder laravel thành 755.';
-    } else {
-        $artisan = $laravel.'/artisan';
-        if (is_file($artisan) && is_file($laravel.'/vendor/autoload.php')) {
-            $cmd = 'cd '.escapeshellarg($laravel).' && php artisan migrate --seed --force 2>&1';
-            $log = (string) shell_exec($cmd);
-            $done = str_contains($log, 'DONE') || str_contains($log, 'successfully') || str_contains(strtolower($log), 'migrated');
-            if ($log === '') {
-                $error = 'Hosting chặn lệnh Terminal. Hãy import file deploy/database.sql trong phpMyAdmin.';
-            }
+        $envPath = $laravel.'/.env';
+        if (file_put_contents($envPath, $env) === false) {
+            $error = 'Không ghi được file .env trong '.$laravel;
         } else {
-            $error = 'Chưa có vendor. Bấm Deploy lại trên Git, rồi mở lại trang này.';
+            $log = 'Đã ghi .env tại '.$laravel."\n";
+            $sql = findSql();
+            try {
+                if ($sql) {
+                    $log .= importSql($sql, $db, $user, $pass)."\n";
+                    $done = true;
+                } elseif (is_file($laravel.'/vendor/autoload.php')) {
+                    $cmd = 'cd '.escapeshellarg($laravel).' && php artisan migrate --seed --force 2>&1';
+                    $log .= (string) shell_exec($cmd);
+                    $done = $log !== '';
+                } else {
+                    $error = 'Chưa import được DB. Vào phpMyAdmin import file repositories/kieu-mi/deploy/database.sql';
+                }
+            } catch (Throwable $e) {
+                $error = 'Lỗi database: '.$e->getMessage();
+            }
         }
     }
 }
@@ -73,20 +126,22 @@ ENV;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cài đặt Quản lý bán hàng</title>
     <style>
-        body { font-family: sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; }
+        body { font-family: sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; }
         label { display: block; margin: 12px 0 4px; font-weight: 600; }
         input { width: 100%; padding: 10px; box-sizing: border-box; }
         button { margin-top: 16px; width: 100%; padding: 12px; font-weight: 700; }
         .ok { color: #0a7; }
-        .err { color: #c00; }
+        .err { color: #c00; white-space: pre-wrap; }
         pre { background: #f4f4f4; padding: 10px; overflow: auto; font-size: 12px; }
+        code { background: #f4f4f4; padding: 2px 4px; }
     </style>
 </head>
 <body>
     <h1>Cài đặt hosting</h1>
+    <p>Laravel: <code><?= h($laravel ?? 'chưa thấy') ?></code></p>
     <?php if ($done): ?>
-        <p class="ok">Xong. Mở <a href="/">trang chủ</a> và đăng nhập admin@kieumi.vn / password.</p>
-        <p>Xóa file setup.php trên File Manager sau khi vào được app.</p>
+        <p class="ok">Xong. Mở <a href="/">trang chủ</a> — admin@kieumi.vn / password.</p>
+        <p>Xóa file <code>setup.php</code> trên File Manager.</p>
     <?php else: ?>
         <?php if ($error): ?><p class="err"><?= h($error) ?></p><?php endif; ?>
         <form method="post">
