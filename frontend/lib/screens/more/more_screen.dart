@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/app_api.dart';
 import '../../services/auth_session.dart';
+import '../../services/web_nav.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/safe_insets.dart';
@@ -36,6 +38,10 @@ class MoreScreen extends StatelessWidget {
     );
     if (ok != true || !context.mounted) return;
     await AppApi.instance.logout();
+    if (kIsWeb) {
+      goToWebLogin();
+      return;
+    }
     if (!context.mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const LoginScreen()),

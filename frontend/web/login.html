@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Quản lý bán hàng">
+  <meta name="theme-color" content="#FF5C00">
+  <title>Đăng nhập · Quản lý bán hàng</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #e04800;
+      color: #111827;
+    }
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #ff7a1a 0%, #ff5c00 55%, #e04800 100%);
+    }
+    .hero {
+      flex: 0 0 auto;
+      padding: calc(28px + env(safe-area-inset-top)) 28px 22px;
+      text-align: center;
+      color: #fff;
+    }
+    .logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 26px;
+      background: #fff;
+      object-fit: cover;
+      box-shadow: 0 12px 28px rgba(0,0,0,.16);
+    }
+    .hero h1 {
+      margin: 18px 0 8px;
+      font-size: 22px;
+      letter-spacing: -.3px;
+    }
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,.74);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .sheet {
+      margin-top: auto;
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+      padding: 28px 24px calc(20px + env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 24px rgba(0,0,0,.2);
+    }
+    .handle {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: #e5e7eb;
+      margin: 0 auto 20px;
+    }
+    h2 { margin: 0 0 6px; font-size: 26px; letter-spacing: -.5px; }
+    .sub { margin: 0 0 26px; color: #6b7280; font-size: 14px; }
+    label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+    .field { margin-bottom: 16px; }
+    .box {
+      display: flex;
+      align-items: center;
+      background: #f3f4f6;
+      border: 1.6px solid transparent;
+      border-radius: 14px;
+      padding: 0 12px;
+    }
+    .box:focus-within { border-color: #ff5c00; background: #fff; }
+    input {
+      flex: 1;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 16px 8px;
+      font-size: 16px;
+      color: #111827;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .toggle {
+      border: 0;
+      background: none;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px;
+    }
+    .err {
+      display: none;
+      margin: 4px 0 16px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #fef2f2;
+      color: #b91c1c;
+      font-size: 13px;
+    }
+    .err.show { display: block; }
+    button[type=submit] {
+      width: 100%;
+      height: 54px;
+      border: 0;
+      border-radius: 14px;
+      background: #ff5c00;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    button[type=submit]:disabled { opacity: .55; }
+    .foot {
+      margin: 16px 0 0;
+      text-align: center;
+      color: rgba(0,0,0,.38);
+      font-size: 12px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    try {
+      if (localStorage.getItem('flutter.auth_token')) {
+        location.replace('./');
+      }
+    } catch (e) {}
+  </script>
+  <div class="hero">
+    <img class="logo" src="icons/Icon-192.png" alt="Kiều Mi">
+    <h1>Quản lý bán hàng</h1>
+    <p>Sản phẩm · Tồn kho · Đơn hàng trên điện thoại</p>
+  </div>
+  <form class="sheet" id="form" autocomplete="on">
+    <div class="handle"></div>
+    <h2>Đăng nhập</h2>
+    <p class="sub">Tài khoản do cửa hàng cấp</p>
+    <div class="field">
+      <label for="login">Email hoặc số điện thoại</label>
+      <div class="box">
+        <input id="login" name="username" type="text" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="vd: admin@kieumi.vn" required>
+      </div>
+    </div>
+    <div class="field">
+      <label for="password">Mật khẩu</label>
+      <div class="box">
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        <button class="toggle" type="button" id="eye">Hiện</button>
+      </div>
+    </div>
+    <div class="err" id="err"></div>
+    <button type="submit" id="btn">Tiếp tục</button>
+    <p class="foot">Kiều Mi · Chỉ dùng nội bộ cửa hàng</p>
+  </form>
+  <script>
+    const form = document.getElementById('form');
+    const login = document.getElementById('login');
+    const password = document.getElementById('password');
+    const err = document.getElementById('err');
+    const btn = document.getElementById('btn');
+    document.getElementById('eye').onclick = function () {
+      const hide = password.type === 'password';
+      password.type = hide ? 'text' : 'password';
+      this.textContent = hide ? 'Ẩn' : 'Hiện';
+    };
+    function showError(msg) {
+      err.textContent = msg;
+      err.classList.add('show');
+    }
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      err.classList.remove('show');
+      btn.disabled = true;
+      btn.textContent = 'Đang vào...';
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ login: login.value.trim(), password: password.value })
+        });
+        const json = await res.json().catch(function () { return {}; });
+        if (!res.ok || json.success === false) {
+          const first = json.errors && (json.errors.login || json.errors.password);
+          throw new Error((first && first[0]) || json.message || 'Đăng nhập thất bại');
+        }
+        const data = json.data || {};
+        const user = data.user || {};
+        localStorage.setItem('flutter.auth_token', JSON.stringify(data.token || ''));
+        localStorage.setItem('flutter.auth_user', JSON.stringify(JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+          is_active: user.is_active
+        })));
+        location.replace('./');
+      } catch (ex) {
+        showError(ex.message || 'Không kết nối được máy chủ.');
+        btn.disabled = false;
+        btn.textContent = 'Tiếp tục';
+      }
+    });
+  </script>
+</body>
+</html>

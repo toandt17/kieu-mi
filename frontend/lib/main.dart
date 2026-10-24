@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/main_shell.dart';
 import 'services/auth_session.dart';
+import 'services/web_nav.dart';
 import 'theme/app_theme.dart';
 import 'widgets/safe_insets.dart';
 
@@ -12,6 +14,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   enableEdgeToEdge();
   await AuthSession.instance.load();
+  if (kIsWeb && !AuthSession.instance.isLoggedIn) {
+    goToWebLogin();
+    return;
+  }
   runApp(const SalesApp());
 }
 
