@@ -31,6 +31,50 @@ function kieu_mi_send_html(string $path): void
     exit;
 }
 
+if (preg_match('#^/app\.html$#', $uri)) {
+    foreach ([
+        __DIR__.'/app.html',
+        '/home/fkssbbakhosting/public_html/mi.daothanhtoan.com/app.html',
+        '/home/fkssbbakhosting/repositories/kieu-mi/deploy/app.html',
+        '/home/fkssbbakhosting/repositories/kieu-mi/frontend/build/web/index.html',
+    ] as $path) {
+        if (! is_file($path) || filesize($path) < 200) {
+            continue;
+        }
+        $head = (string) file_get_contents($path, false, null, 0, 240);
+        if (str_contains($head, 'Đăng nhập') || str_contains($head, 'id="form"')) {
+            continue;
+        }
+        kieu_mi_send_html($path);
+    }
+
+    header('Content-Type: text/html; charset=UTF-8');
+    echo <<<'HTML'
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FF5C00">
+  <title>Quản lý bán hàng</title>
+  <style>
+    html,body{margin:0;height:100%;background:#ff5c00}
+    #boot{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  </style>
+</head>
+<body>
+  <div id="boot">Đang mở ứng dụng…</div>
+  <script>
+    try { if (!localStorage.getItem('flutter.auth_token')) location.replace('/'); } catch (e) {}
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
+HTML;
+    exit;
+}
+
 if (! $isApi) {
     $page = kieu_mi_frontend_file('login.html') ?? kieu_mi_frontend_file('index.html');
     if ($page !== null) {

@@ -61,17 +61,24 @@
     var password = document.getElementById('password');
     var err = document.getElementById('err');
     var btn = document.getElementById('btn');
-    try { if (localStorage.getItem('flutter.auth_token')) location.replace('app.html'); } catch (e) {}
+    try {
+      if (localStorage.getItem('flutter.auth_token') && !/app\.html$/i.test(location.pathname)) {
+        location.replace('app.html');
+      }
+    } catch (e) {}
     form.onsubmit = async function (e) {
       e.preventDefault();
       err.className = 'err';
       btn.disabled = true;
       btn.textContent = 'Đang vào...';
+      var ctrl = new AbortController();
+      var timer = setTimeout(function () { ctrl.abort(); }, 20000);
       try {
         var res = await fetch('/api/login', {
           method: 'POST',
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ login: login.value.trim(), password: password.value })
+          body: JSON.stringify({ login: login.value.trim(), password: password.value }),
+          signal: ctrl.signal
         });
         var json = await res.json().catch(function () { return {}; });
         if (!res.ok || json.success === false) {
@@ -86,10 +93,14 @@
         })));
         location.replace('app.html');
       } catch (ex) {
-        err.textContent = ex.message || 'Không kết nối được máy chủ.';
+        err.textContent = (ex && ex.name === 'AbortError')
+          ? 'Máy chủ phản hồi chậm. Thử lại.'
+          : (ex.message || 'Không kết nối được máy chủ.');
         err.className = 'err show';
         btn.disabled = false;
         btn.textContent = 'Tiếp tục';
+      } finally {
+        clearTimeout(timer);
       }
     };
   </script>

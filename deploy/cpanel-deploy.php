@@ -104,6 +104,9 @@ function deployTo(string $repo, string $dest): void
     if (is_file($dest.'/index.html')) {
         @copy($dest.'/index.html', $dest.'/app.html');
     }
+    if (is_file($repo.'/deploy/app.html')) {
+        @copy($repo.'/deploy/app.html', $dest.'/app.html');
+    }
     $loginPage = is_file($repo.'/deploy/home.html')
         ? $repo.'/deploy/home.html'
         : (is_file($dest.'/login.html') ? $dest.'/login.html' : $repo.'/frontend/web/login.html');

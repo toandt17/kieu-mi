@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Ứng dụng quản lý bán hàng Kiều Mi.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Quản lý bán hàng">
+  <meta name="theme-color" content="#FF5C00">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/km-192.png">
+  <title>Quản lý bán hàng</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html, body { margin: 0; height: 100%; background: #ff5c00; }
+    #boot {
+      position: fixed; inset: 0; z-index: 9; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px; color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #boot .spin {
+      width: 36px; height: 36px; border: 3px solid rgba(255,255,255,.35);
+      border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    #boot p { margin: 0; font-size: 15px; }
+    #boot a { color: #fff; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    flt-semantics-host input,
+    flt-semantics-host textarea { pointer-events: none !important; }
+  </style>
+</head>
+<body>
+  <div id="boot">
+    <div class="spin"></div>
+    <p>Đang mở ứng dụng…</p>
+  </div>
+  <script>
+    try {
+      if (!localStorage.getItem('flutter.auth_token')) {
+        location.replace('/');
+      }
+    } catch (e) {}
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('boot');
+      if (el) el.remove();
+    });
+    setTimeout(function () {
+      var el = document.getElementById('boot');
+      if (!el) return;
+      if (!document.querySelector('flutter-view, flt-glass-pane')) {
+        el.innerHTML = '<p>Không tải được ứng dụng.</p><p><a href="/">Về đăng nhập</a></p>';
+      }
+    }, 25000);
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
