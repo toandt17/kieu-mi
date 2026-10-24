@@ -11,11 +11,11 @@ function findLaravel(): ?string
 {
     foreach ([
         __DIR__.'/laravel',
+        '/home/fkssbbakhosting/public_html/mi.daothanhtoan.com/laravel',
+        '/home/fkssbbakhosting/repositories/kieu-mi/backend',
         dirname(__DIR__).'/mi.daothanhtoan.com/laravel',
-        dirname(__DIR__).'/mi.daothanhtoan.com.vn/laravel',
         '/home/fkssbbakhosting/mi.daothanhtoan.com/laravel',
         '/home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel',
-        '/home/fkssbbakhosting/repositories/kieu-mi/backend',
     ] as $path) {
         if (is_file($path.'/artisan') && is_file($path.'/bootstrap/app.php')) {
             return $path;

@@ -43,11 +43,11 @@ define('LARAVEL_START', microtime(true));
 $laravel = null;
 foreach ([
     __DIR__.'/laravel',
+    '/home/fkssbbakhosting/public_html/mi.daothanhtoan.com/laravel',
+    '/home/fkssbbakhosting/repositories/kieu-mi/backend',
     dirname(__DIR__).'/mi.daothanhtoan.com/laravel',
-    dirname(__DIR__).'/mi.daothanhtoan.com.vn/laravel',
     '/home/fkssbbakhosting/mi.daothanhtoan.com/laravel',
     '/home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel',
-    '/home/fkssbbakhosting/repositories/kieu-mi/backend',
 ] as $path) {
     if (is_file($path.'/bootstrap/app.php') && is_file($path.'/vendor/autoload.php')) {
         $laravel = $path;
@@ -56,18 +56,12 @@ foreach ([
 }
 
 if ($laravel === null) {
-    if ($isApi) {
-        $lite = is_file(__DIR__.'/lite_api.php')
-            ? __DIR__.'/lite_api.php'
-            : '/home/fkssbbakhosting/repositories/kieu-mi/deploy/lite_api.php';
-        require $lite;
-        lite_handle($uri);
-    }
-
     http_response_code(503);
-    header('Content-Type: text/html; charset=UTF-8');
-    echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
-    echo '<p>Chưa thấy trang đăng nhập. Mở <a href="/setup.php">setup.php</a> hoặc Deploy lại trên Git.</p>';
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Chưa có vendor Laravel. Trong File Manager, copy repositories/kieu-mi/backend vào public_html/mi.daothanhtoan.com và đặt tên folder là laravel.',
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
