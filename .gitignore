@@ -4,7 +4,6 @@ _hosting_pack/
 
 # Laravel
 backend/.env
-backend/vendor/
 backend/node_modules/
 backend/database/database.sqlite
 backend/storage/logs/*.log

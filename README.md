@@ -64,18 +64,18 @@ Repo: https://github.com/toandt17/kieu-mi.git
 3. Repository Path: `/home/fkssbbakhosting/repositories/kieu-mi`  
    (đừng clone thẳng vào folder website)
 4. Bấm **Update** / **Deploy** để chạy `.cpanel.yml`  
-   (copy giao diện + Laravel vào `mi.daothanhtoan.com.vn`)
+   (copy giao diện + Laravel vào `mi.daothanhtoan.com`)
 5. Tạo file `.env` trên server:
 
 ```bash
-cp /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel/.env.example \
-   /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel/.env
+cp /home/fkssbbakhosting/mi.daothanhtoan.com/laravel/.env.example \
+   /home/fkssbbakhosting/mi.daothanhtoan.com/laravel/.env
 ```
 
-Sửa DB, `APP_URL=https://mi.daothanhtoan.com.vn`, `APP_KEY`, rồi:
+Sửa DB, `APP_URL=https://mi.daothanhtoan.com`, `APP_KEY`, rồi:
 
 ```bash
-cd /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel
+cd /home/fkssbbakhosting/mi.daothanhtoan.com/laravel
 composer install --no-dev
 php artisan key:generate
 php artisan migrate --seed
