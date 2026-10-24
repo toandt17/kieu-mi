@@ -1,19 +1,11 @@
 ---
 deployment:
   tasks:
-    - /bin/mkdir -p /home/fkssbbakhosting/mi.daothanhtoan.com/laravel /home/fkssbbakhosting/mi.daothanhtoan.com/storage/products
-    - /bin/mkdir -p /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel /home/fkssbbakhosting/mi.daothanhtoan.com.vn/storage/products
-    - /bin/cp -a backend/. /home/fkssbbakhosting/mi.daothanhtoan.com/laravel/
-    - /bin/cp -a backend/. /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel/
-    - /bin/cp -a frontend/build/web/. /home/fkssbbakhosting/mi.daothanhtoan.com/
-    - /bin/cp -a frontend/build/web/. /home/fkssbbakhosting/mi.daothanhtoan.com.vn/
-    - /bin/cp -f deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com/index.php
-    - /bin/cp -f deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.php
-    - /bin/cp -f deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com/.htaccess
-    - /bin/cp -f deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com.vn/.htaccess
-    - /bin/cp -f deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com/setup.php
-    - /bin/cp -f deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/setup.php
-    - /bin/cp -f deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com/database.sql
-    - /bin/cp -f deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com.vn/database.sql
-    - /bin/cp -f deploy/laravel-deny.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com/laravel/.htaccess
-    - /bin/cp -f deploy/laravel-deny.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com.vn/laravel/.htaccess
+    - /bin/sh -c "php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php || /usr/bin/php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php || /usr/local/bin/php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php"
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com/setup.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/setup.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/public_html/setup.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com/index.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com/database.sql
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com.vn/database.sql

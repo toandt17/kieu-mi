@@ -138,6 +138,7 @@ ENV;
 </head>
 <body>
     <h1>Cài đặt hosting</h1>
+    <p>Bản: 20261024-2</p>
     <p>Laravel: <code><?= h($laravel ?? 'chưa thấy') ?></code></p>
     <?php if ($done): ?>
         <p class="ok">Xong. Mở <a href="/">trang chủ</a> — admin@kieumi.vn / password.</p>
