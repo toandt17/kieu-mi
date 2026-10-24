@@ -41,37 +41,19 @@ if (preg_match('#^/app\.html$#', $uri)) {
         if (! is_file($path) || filesize($path) < 200) {
             continue;
         }
-        $head = (string) file_get_contents($path, false, null, 0, 240);
-        if (str_contains($head, 'Đăng nhập') || str_contains($head, 'id="form"')) {
+        $head = (string) file_get_contents($path, false, null, 0, 400);
+        if (str_contains($head, 'Đăng nhập') || str_contains($head, 'id="form"') || str_contains($head, 'flutter_bootstrap.js')) {
             continue;
         }
         kieu_mi_send_html($path);
     }
 
+    $repoApp = '/home/fkssbbakhosting/repositories/kieu-mi/deploy/app.html';
+    if (is_file($repoApp) && filesize($repoApp) > 200) {
+        kieu_mi_send_html($repoApp);
+    }
     header('Content-Type: text/html; charset=UTF-8');
-    echo <<<'HTML'
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <base href="/">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#FF5C00">
-  <title>Quản lý bán hàng</title>
-  <style>
-    html,body{margin:0;height:100%;background:#ff5c00}
-    #boot{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  </style>
-</head>
-<body>
-  <div id="boot">Đang mở ứng dụng…</div>
-  <script>
-    try { if (!localStorage.getItem('flutter.auth_token')) location.replace('/'); } catch (e) {}
-  </script>
-  <script src="flutter_bootstrap.js" async></script>
-</body>
-</html>
-HTML;
+    echo '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>Quản lý bán hàng</title></head><body><p>Thiếu app.html. Deploy lại từ Git.</p><p><a href="/">Về đăng nhập</a></p></body></html>';
     exit;
 }
 
