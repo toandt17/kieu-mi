@@ -237,6 +237,8 @@ class _LoginScreenState extends State<LoginScreen>
                               enabled: !_loading,
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
+                              style: _fieldTextStyle,
+                              cursorColor: const Color(0xFFFF5C00),
                               onSubmitted: (_) => _passwordFocus.requestFocus(),
                               decoration: _fieldDecoration(
                                 hint: 'vd: admin@kieumi.vn',
@@ -253,6 +255,8 @@ class _LoginScreenState extends State<LoginScreen>
                               enabled: !_loading,
                               obscureText: _obscure,
                               textInputAction: TextInputAction.done,
+                              style: _fieldTextStyle,
+                              cursorColor: const Color(0xFFFF5C00),
                               onSubmitted: (_) => _submit(),
                               decoration: _fieldDecoration(
                                 hint: '••••••••',
@@ -336,6 +340,13 @@ class _LoginScreenState extends State<LoginScreen>
       ),
     );
   }
+
+  static const _fieldTextStyle = TextStyle(
+    color: Color(0xFF111827),
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+  );
 
   InputDecoration _fieldDecoration({
     required String hint,

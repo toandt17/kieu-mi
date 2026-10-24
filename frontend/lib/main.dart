@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -11,7 +10,6 @@ import 'widgets/safe_insets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SemanticsBinding.instance.ensureSemantics();
   enableEdgeToEdge();
   await AuthSession.instance.load();
   runApp(const SalesApp());

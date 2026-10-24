@@ -31,6 +31,13 @@
 
   <title>Quản lý bán hàng</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    /* Semantics overlay must not steal taps from Flutter text fields. */
+    flt-semantics-host input,
+    flt-semantics-host textarea {
+      pointer-events: none !important;
+    }
+  </style>
 </head>
 <body>
   <!--
