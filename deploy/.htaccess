@@ -16,6 +16,7 @@
 
     RewriteRule ^setup\.php$ - [L]
     RewriteRule ^login\.html$ - [L]
+    RewriteRule ^index\.html$ - [L]
     RewriteRule ^(api|up|storage)(/.*)?$ index.php [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -27,4 +28,4 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-DirectoryIndex index.html index.php
+DirectoryIndex login.html index.html index.php

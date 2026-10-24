@@ -139,7 +139,7 @@
   <script>
     try {
       if (localStorage.getItem('flutter.auth_token')) {
-        location.replace('./');
+        location.replace('app.html');
       }
     } catch (e) {}
   </script>
@@ -211,7 +211,7 @@
           role: user.role,
           is_active: user.is_active
         })));
-        location.replace('./');
+        location.replace('app.html');
       } catch (ex) {
         showError(ex.message || 'Không kết nối được máy chủ.');
         btn.disabled = false;

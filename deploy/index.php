@@ -3,6 +3,39 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
+$uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$uri = preg_replace('#^/index\.php#', '', $uri) ?: '/';
+$isApi = (bool) preg_match('#^/(api|up|storage)(/|$)#', $uri);
+
+function kieu_mi_frontend_file(string $name): ?string
+{
+    foreach ([
+        __DIR__.'/'.$name,
+        '/home/fkssbbakhosting/repositories/kieu-mi/frontend/build/web/'.$name,
+        '/home/fkssbbakhosting/repositories/kieu-mi/frontend/web/'.$name,
+    ] as $path) {
+        if (is_file($path) && filesize($path) > 50) {
+            return $path;
+        }
+    }
+
+    return null;
+}
+
+function kieu_mi_send_html(string $path): void
+{
+    header('Content-Type: text/html; charset=UTF-8');
+    readfile($path);
+    exit;
+}
+
+if (! $isApi) {
+    $page = kieu_mi_frontend_file('login.html') ?? kieu_mi_frontend_file('index.html');
+    if ($page !== null) {
+        kieu_mi_send_html($page);
+    }
+}
+
 define('LARAVEL_START', microtime(true));
 
 $laravel = null;
@@ -21,8 +54,20 @@ foreach ([
 }
 
 if ($laravel === null) {
-    http_response_code(500);
-    echo 'Chưa thấy Laravel. Copy folder repositories/kieu-mi/backend thành laravel trong thư mục website.';
+    if ($isApi) {
+        http_response_code(503);
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode([
+            'success' => false,
+            'message' => 'API chưa sẵn sàng. Mở /setup.php để cài đặt.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    http_response_code(503);
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
+    echo '<p>Chưa thấy trang đăng nhập. Mở <a href="/setup.php">setup.php</a> hoặc Deploy lại trên Git.</p>';
     exit;
 }
 

@@ -101,6 +101,16 @@ function deployTo(string $repo, string $dest): void
     copyFile($repo.'/deploy/setup.php', $dest.'/setup.php');
     copyFile($repo.'/deploy/database.sql', $dest.'/database.sql');
     copyFile($repo.'/deploy/laravel-deny.htaccess', $laravel.'/.htaccess');
+    if (is_file($dest.'/index.html')) {
+        @copy($dest.'/index.html', $dest.'/app.html');
+    }
+    $loginPage = is_file($dest.'/login.html')
+        ? $dest.'/login.html'
+        : $repo.'/frontend/web/login.html';
+    if (is_file($loginPage)) {
+        @copy($loginPage, $dest.'/index.html');
+        @copy($loginPage, $dest.'/login.html');
+    }
 }
 
 function copyFile(string $from, string $to): void

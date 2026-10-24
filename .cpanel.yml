@@ -2,10 +2,11 @@
 deployment:
   tasks:
     - /bin/sh -c "php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php || /usr/bin/php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php || /usr/local/bin/php /home/fkssbbakhosting/repositories/kieu-mi/deploy/cpanel-deploy.php"
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com/setup.php
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/setup.php
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/setup.php /home/fkssbbakhosting/public_html/setup.php
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/login.html /home/fkssbbakhosting/mi.daothanhtoan.com/login.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/login.html /home/fkssbbakhosting/mi.daothanhtoan.com.vn/login.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/login.html /home/fkssbbakhosting/mi.daothanhtoan.com/index.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/login.html /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.html
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com/index.php
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/mi.daothanhtoan.com.vn/index.php
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com/database.sql
-    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/database.sql /home/fkssbbakhosting/mi.daothanhtoan.com.vn/database.sql
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com/.htaccess
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/mi.daothanhtoan.com.vn/.htaccess
