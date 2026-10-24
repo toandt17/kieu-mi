@@ -14,633 +14,186 @@
   <link rel="icon" type="image/png" href="/km-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
   <style>
     :root {
-      --primary: #2F7BFF;
-      --primary-dark: #1B5FE0;
-      --orange: #FF6A00;
-      --bg: #F3F7FB;
-      --surface: #FFFFFF;
-      --text: #1C1C1E;
-      --muted: #8E8E93;
-      --line: #E5EAF0;
-      --green: #34C759;
-      --red: #FF3B30;
-      --purple: #AF52DE;
-      --icon-bg: #F3F6FA;
+      --p: #2F7BFF; --pd: #1B5FE0; --o: #FF6A00; --bg: #F3F7FB; --s: #fff;
+      --t: #1C1C1E; --m: #8E8E93; --l: #E5EAF0; --g: #34C759; --r: #FF3B30;
+      --u: #AF52DE; --ib: #F3F6FA; --nav: 56px;
     }
     * { box-sizing: border-box; }
     html, body {
-      margin: 0; min-height: 100%; background: var(--bg); color: var(--text);
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0; min-height: 100%; background: var(--bg); color: var(--t);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     button, input, select, textarea { font-family: inherit; }
     button { cursor: pointer; }
-    input, select, textarea {
-      width: 100%; height: 48px; padding: 0 12px; border: 1px solid var(--line);
-      border-radius: 12px; background: #fff; font-size: 16px; color: var(--text);
-      -webkit-appearance: none; appearance: none;
-    }
-    textarea { height: auto; min-height: 84px; padding: 12px; }
+    a { color: inherit; text-decoration: none; }
     .hidden { display: none !important; }
     .ms {
-      font-family: "Material Symbols Rounded";
-      font-weight: 400; font-style: normal; font-size: 22px; line-height: 1;
-      letter-spacing: normal; text-transform: none; display: inline-block;
-      white-space: nowrap; word-wrap: normal; direction: ltr;
-      -webkit-font-feature-settings: "liga"; -webkit-font-smoothing: antialiased;
-      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+      font-family: "Material Symbols Rounded"; font-weight: 500; font-size: 22px;
+      line-height: 1; display: inline-block; width: 22px; height: 22px;
+      overflow: hidden; font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
     }
     .ms.fill { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
-    #app { min-height: 100dvh; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-    .hero {
-      background: linear-gradient(135deg, #0E2A4A 0%, #1A4A8A 50%, #2563EB 100%);
-      color: #fff; padding: calc(10px + env(safe-area-inset-top)) 20px 22px;
-      border-radius: 0 0 24px 24px;
+    input, select, textarea {
+      width: 100%; height: 46px; padding: 0 12px; border: 1px solid var(--l);
+      border-radius: 12px; background: #fff; font-size: 16px; color: var(--t);
+      -webkit-appearance: none; appearance: none;
     }
-    .hero-top { display: flex; align-items: center; justify-content: space-between; }
-    .brand { font-size: 13px; font-weight: 800; letter-spacing: 0.6px; }
-    .hero-actions { display: flex; gap: 8px; }
+    textarea { height: auto; min-height: 80px; padding: 10px 12px; }
+    #app { min-height: 100dvh; padding-bottom: calc(var(--nav) + 12px + env(safe-area-inset-bottom)); }
+    .hero {
+      background: linear-gradient(135deg, #0E2A4A, #1A4A8A 52%, #2563EB);
+      color: #fff; padding: calc(8px + env(safe-area-inset-top)) 16px 18px;
+      border-radius: 0 0 22px 22px;
+    }
+    .hero-top, .bar { display: flex; align-items: center; gap: 8px; }
+    .brand { font-size: 12px; font-weight: 800; letter-spacing: .5px; }
+    .grow { flex: 1; }
     .round {
-      width: 38px; height: 38px; border: 0; border-radius: 50%;
+      width: 36px; height: 36px; border: 0; border-radius: 50%;
       background: rgba(255,255,255,.14); color: #fff; display: grid; place-items: center; position: relative;
     }
-    .round .dot {
-      position: absolute; right: 2px; top: 2px; min-width: 14px; height: 14px; padding: 0 4px;
-      background: var(--orange); border-radius: 8px; font-size: 9px; font-weight: 700; line-height: 14px;
+    .round.light { background: #fff; color: var(--t); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .round .badge {
+      position: absolute; top: 2px; right: 2px; min-width: 8px; height: 8px;
+      border-radius: 8px; background: var(--o);
     }
-    .greet { margin: 20px 0 0; font-size: 13px; color: rgba(255,255,255,.72); font-weight: 400; }
-    .hero h1 { margin: 4px 0 0; font-size: 22px; font-weight: 800; letter-spacing: -0.2px; }
-    .role { margin: 4px 0 0; font-size: 13px; color: rgba(255,255,255,.7); font-weight: 400; }
-    .page { padding: 16px 0 8px; }
-    .page-head {
-      background: linear-gradient(135deg, #0E2A4A 0%, #1A4A8A 50%, #2563EB 100%);
-      color: #fff; padding: calc(10px + env(safe-area-inset-top)) 20px 20px;
-      border-radius: 0 0 24px 24px;
+    .greet { margin: 14px 0 0; font-size: 12px; color: rgba(255,255,255,.7); }
+    .hero h1 { margin: 2px 0 0; font-size: 20px; font-weight: 800; letter-spacing: -.2px; }
+    .role { margin: 2px 0 0; font-size: 12px; color: rgba(255,255,255,.68); }
+    .topbar {
+      background: #fff; padding: calc(10px + env(safe-area-inset-top)) 16px 12px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 1px 0 #EEF1F5;
     }
-    .page-head h1 { margin: 0; font-size: 24px; font-weight: 800; }
-    .page-head p { margin: 6px 0 0; font-size: 13px; color: rgba(255,255,255,.72); }
+    .topbar h1 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.2px; }
+    .appbar {
+      background: #fff; padding: calc(6px + env(safe-area-inset-top)) 8px 10px;
+      display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 1px 0 #EEF1F5;
+    }
+    .appbar h1 { margin: 0; font-size: 17px; font-weight: 700; }
+    .appbar .sub { margin: 1px 0 0; font-size: 12px; color: var(--m); font-weight: 400; }
+    .appbar .round.ghost { background: transparent; box-shadow: none; color: var(--t); }
     .pad { padding: 0 16px; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
-    .soft {
-      background: var(--surface); border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    }
-    .soft.r14 { border-radius: 14px; }
-    .soft.r12 { border-radius: 12px; }
-    .stat { padding: 14px; text-align: left; border: 0; width: 100%; }
-    .stat .ms { color: inherit; font-size: 22px; }
-    .stat .v { margin: 10px 0 4px; font-size: 16px; font-weight: 800; color: var(--text); }
-    .stat .k { font-size: 12px; color: var(--muted); font-weight: 400; }
-    .section { display: flex; justify-content: space-between; align-items: center; margin: 22px 16px 10px; }
-    .section h3 { margin: 0; font-size: 16px; font-weight: 700; }
-    .section button { border: 0; background: 0; color: var(--primary); font-size: 14px; font-weight: 600; padding: 0; }
-    .quick-wrap { margin: 0 16px; padding: 12px 4px; }
-    .quick { display: grid; grid-template-columns: repeat(4, 1fr); }
-    .tile { border: 0; background: 0; padding: 4px 0; color: var(--text); }
-    .tile .box {
-      width: 48px; height: 48px; margin: 0 auto; border-radius: 12px;
-      background: var(--icon-bg); display: grid; place-items: center;
-    }
-    .tile .box .ms { font-size: 26px; }
-    .tile span { display: block; margin-top: 6px; font-size: 11px; font-weight: 600; }
-    .list { display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
+    .gap { height: 12px; }
+    .soft { background: var(--s); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.07); }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .stat { padding: 12px; text-align: left; border: 0; width: 100%; }
+    .stat .v { margin: 8px 0 2px; font-size: 16px; font-weight: 800; color: var(--t); }
+    .stat .k { font-size: 11px; color: var(--m); }
+    .sec { display: flex; align-items: center; justify-content: space-between; margin: 16px 16px 8px; }
+    .sec h3 { margin: 0; font-size: 15px; font-weight: 700; }
+    .sec a, .sec button.link { border: 0; background: 0; color: var(--p); font-size: 13px; font-weight: 600; padding: 0; }
+    .quick { display: grid; grid-template-columns: repeat(4, 1fr); padding: 10px 4px; }
+    .tile { border: 0; background: 0; color: var(--t); padding: 4px 0; }
+    .tile .box { width: 44px; height: 44px; margin: 0 auto; border-radius: 12px; background: var(--ib); display: grid; place-items: center; }
+    .tile span { display: block; margin-top: 5px; font-size: 11px; font-weight: 600; }
+    .list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
     .item {
-      display: block; width: 100%; text-align: left; border: 0; padding: 14px;
-      background: var(--surface); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.08); color: inherit;
+      display: block; width: 100%; text-align: left; border: 0; padding: 12px;
+      background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.07); color: inherit;
     }
     .row { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
-    .row b { display: block; font-size: 15px; font-weight: 800; }
-    .muted { color: var(--muted); font-size: 13px; font-weight: 400; }
-    .chip {
-      display: inline-block; margin-top: 4px; padding: 3px 8px; border-radius: 6px;
-      font-size: 11px; font-weight: 700;
-    }
+    .row b { display: block; font-size: 14px; font-weight: 800; }
+    .muted { color: var(--m); font-size: 12px; font-weight: 400; }
+    .chip { display: inline-block; padding: 2px 7px; border-radius: 6px; font-size: 11px; font-weight: 700; }
     .ok { background: rgba(52,199,89,.12); color: #167a38; }
-    .bad { background: rgba(255,59,48,.12); color: var(--red); }
-    .warn { color: var(--orange); font-weight: 700; font-size: 12px; }
-    .search-wrap { padding: 14px 16px 8px; }
-    .search-wrap input { height: 44px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.06); border-color: transparent; }
-    .btn { width: 100%; height: 48px; border: 0; border-radius: 12px; background: var(--primary); color: #fff; font-weight: 700; font-size: 15px; }
-    .btn.orange { background: var(--orange); }
-    .btn.sec { background: #eef2f7; color: var(--text); }
-    .btn.danger { background: var(--red); }
-    .btn[disabled] { opacity: .55; }
-    .fab {
-      position: fixed; right: 16px; bottom: calc(80px + env(safe-area-inset-bottom));
-      width: 56px; height: 56px; border: 0; border-radius: 50%;
-      background: var(--orange); color: #fff; display: grid; place-items: center;
-      box-shadow: 0 4px 12px rgba(255,106,0,.28);
+    .bad { background: rgba(255,59,48,.12); color: var(--r); }
+    .warn { background: rgba(255,106,0,.12); color: #c45300; }
+    .info { background: rgba(47,123,255,.12); color: var(--pd); }
+    .search-row { display: flex; gap: 8px; padding: 12px 16px 10px; background: transparent; }
+    .search-row input { height: 42px; background: #fff; border-color: transparent; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .search-row .round { flex: none; }
+    .btn { width: 100%; height: 46px; border: 0; border-radius: 12px; background: var(--p); color: #fff; font-weight: 700; font-size: 15px; }
+    .btn.o { background: var(--o); }
+    .btn.sec { background: #eef2f7; color: var(--t); }
+    .btn.ghost { background: 0; color: var(--r); border: 1px solid #ffd4d1; }
+    .btn[disabled] { opacity: .5; }
+    .btn.sm { width: auto; height: 40px; padding: 0 14px; }
+    .footbar {
+      position: sticky; bottom: calc(var(--nav) + env(safe-area-inset-bottom));
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      background: #fff; box-shadow: 0 -4px 16px rgba(0,0,0,.06);
     }
-    .fab .ms { font-size: 28px; color: #fff; }
-    nav {
+    .footbar b { font-size: 18px; }
+    nav#nav {
       position: fixed; left: 0; right: 0; bottom: 0;
-      height: calc(56px + env(safe-area-inset-bottom));
-      padding-bottom: env(safe-area-inset-bottom);
-      background: #fff; display: grid; grid-template-columns: repeat(5, 1fr);
-      box-shadow: 0 -4px 16px rgba(0,0,0,.08);
+      height: calc(var(--nav) + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom); background: #fff;
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      box-shadow: 0 -4px 16px rgba(0,0,0,.07);
     }
-    nav button {
-      border: 0; background: 0; color: var(--muted); padding: 6px 0 0;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    nav#nav button {
+      border: 0; background: 0; color: var(--m); padding: 6px 0 0;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
     }
-    nav button .ms { font-size: 22px; }
-    nav button span { font-size: 9px; font-weight: 500; }
-    nav button.on { color: var(--primary); }
-    nav button.on span { font-weight: 700; }
-    nav button.on .ms { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
-    .sheet { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 20; display: flex; align-items: flex-end; }
+    nav#nav button span.lbl { font-size: 9px; font-weight: 500; }
+    nav#nav button.on { color: var(--p); }
+    nav#nav button.on span.lbl { font-weight: 700; }
+    nav#nav button.on .ms { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+    .sheet { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 30; display: flex; align-items: flex-end; }
     .sheet .box {
-      width: 100%; max-height: 92dvh; overflow: auto; background: #fff;
-      border-radius: 28px 28px 0 0; padding: 12px 16px calc(18px + env(safe-area-inset-bottom));
+      width: 100%; max-height: 88dvh; overflow: auto; background: #fff;
+      border-radius: 22px 22px 0 0; padding: 10px 16px calc(16px + env(safe-area-inset-bottom));
     }
-    .grab { width: 36px; height: 4px; margin: 4px auto 16px; background: #E5E7EB; border-radius: 2px; }
-    .sheet h3 { margin: 0 0 14px; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
-    .field { margin: 0 0 14px; }
-    .field label { display: block; margin: 0 0 6px; font-size: 13px; font-weight: 700; }
+    .grab { width: 36px; height: 4px; margin: 4px auto 14px; background: #E5E7EB; border-radius: 2px; }
+    .sheet h3 { margin: 0 0 12px; font-size: 18px; font-weight: 800; }
+    .field { margin: 0 0 12px; }
+    .field label { display: block; margin: 0 0 5px; font-size: 12px; font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chips button {
+      border: 1px solid var(--l); background: #fff; border-radius: 999px;
+      padding: 6px 11px; font-size: 12px; font-weight: 600; color: var(--t);
+    }
+    .chips button.on { background: #E8F1FF; border-color: #B7D3FF; color: var(--pd); }
     .toast {
-      position: fixed; left: 16px; right: 16px; bottom: calc(80px + env(safe-area-inset-bottom));
-      background: #1C1C1E; color: #fff; padding: 12px 14px; border-radius: 10px; z-index: 30; font-size: 14px;
+      position: fixed; left: 16px; right: 16px; bottom: calc(72px + env(safe-area-inset-bottom));
+      background: #1C1C1E; color: #fff; padding: 11px 13px; border-radius: 10px; z-index: 40; font-size: 13px;
     }
-    .empty { padding: 28px 16px; text-align: center; color: var(--muted); font-size: 14px; }
-    .line { display: flex; gap: 8px; align-items: center; margin: 0 0 8px; }
-    .line input, .line select { flex: 1; }
-    .line button { height: 48px; width: 44px; border: 0; border-radius: 12px; background: var(--icon-bg); }
+    .empty { padding: 36px 16px; text-align: center; color: var(--m); font-size: 13px; }
     .avatar {
-      width: 54px; height: 54px; border-radius: 50%; background: var(--primary);
-      color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 18px; flex: none;
+      width: 48px; height: 48px; border-radius: 50%; background: var(--p); color: #fff;
+      display: grid; place-items: center; font-weight: 700; flex: none;
     }
-    .profile { display: flex; gap: 12px; align-items: center; padding: 14px; }
-    .profile b { font-size: 15px; font-weight: 800; }
-    .tile-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 14px 8px 8px; gap: 8px 0; }
-    .logout { display: flex; align-items: center; gap: 12px; padding: 14px; width: 100%; border: 0; background: #fff; text-align: left; }
-    .logout .ico { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,59,48,.12); display: grid; place-items: center; color: var(--red); }
-    .logout b { color: var(--red); font-weight: 700; }
-    .hscroll { display: flex; gap: 10px; overflow-x: auto; padding: 0 16px; scrollbar-width: none; }
+    .ico48 { width: 40px; height: 40px; border-radius: 12px; background: var(--ib); display: grid; place-items: center; flex: none; }
+    .qty { display: flex; align-items: center; background: var(--ib); border-radius: 10px; }
+    .qty button { width: 36px; height: 36px; border: 0; background: 0; }
+    .qty b { min-width: 22px; text-align: center; }
+    .line { display: flex; gap: 8px; align-items: center; }
+    .profile { display: flex; gap: 12px; align-items: center; padding: 12px; }
+    .logout { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: #fff; text-align: left; padding: 12px; border-radius: 12px; }
+    .logout .ico { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,59,48,.1); display: grid; place-items: center; color: var(--r); }
+    .logout b { color: var(--r); }
+    .kv { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 9px 0; font-size: 13.5px; border-bottom: 1px solid #F2F4F7; }
+    .kv:last-child { border-bottom: 0; }
+    .kv span { color: var(--m); }
+    .kv b { text-align: right; font-weight: 700; }
+    .card { padding: 14px 16px; }
+    .card-title { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--m); text-transform: uppercase; letter-spacing: .3px; }
+    .good { color: #167a38; }
+    .line-item { padding: 12px 14px; }
+    .line-item + .line-item { margin-top: 8px; }
+    .sum { font-size: 18px; font-weight: 800; }
+    .hscroll { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px; scrollbar-width: none; }
     .hscroll::-webkit-scrollbar { display: none; }
-    .stock-card { min-width: 180px; padding: 12px; }
-    .stock-card b { font-size: 14px; font-weight: 700; }
+    .stock-card { min-width: 168px; padding: 12px; }
+    .img-pick {
+      height: 140px; border-radius: 14px; background: #E8F2FF; display: grid; place-items: center;
+      color: var(--p); overflow: hidden; margin-bottom: 12px;
+    }
+    .img-pick img { width: 100%; height: 100%; object-fit: cover; }
+    .switch { display: flex; align-items: center; justify-content: space-between; }
   </style>
 </head>
 <body>
   <div id="app"></div>
-  <button id="fab" class="fab hidden" type="button"><span class="ms">add</span></button>
   <nav id="nav"></nav>
   <div id="sheet" class="sheet hidden"></div>
   <div id="toast" class="toast hidden"></div>
-  <script>
-    var token = readPref('auth_token');
-    var user = readPref('auth_user', true) || {};
-    if (!token) location.replace('/');
-
-    var tab = 'home';
-    var cache = { dash: null, orders: [], products: [], stock: [], users: [] };
-
-    function readPref(key, asObject) {
-      try {
-        var raw = localStorage.getItem('flutter.' + key);
-        if (!raw) return asObject ? null : '';
-        var v = JSON.parse(raw);
-        if (typeof v === 'string') {
-          if (!asObject) return v;
-          try { return JSON.parse(v); } catch (e) { return null; }
-        }
-        return asObject ? (v || null) : String(v || '');
-      } catch (e) {
-        return asObject ? null : '';
-      }
-    }
-    function money(n) { return Number(n || 0).toLocaleString('vi-VN') + 'đ'; }
-    function greet() {
-      var h = new Date().getHours();
-      return h < 12 ? 'Chào buổi sáng' : h < 18 ? 'Chào buổi chiều' : 'Chào buổi tối';
-    }
-    function when(s) {
-      if (!s) return '';
-      var d = new Date(s);
-      if (isNaN(d)) return s;
-      return d.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
-    }
-    function toast(msg) {
-      var el = document.getElementById('toast');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      clearTimeout(toast._t);
-      toast._t = setTimeout(function () { el.classList.add('hidden'); }, 2200);
-    }
-    function chip(st) {
-      return st === 'cancelled' ? '<span class="chip bad">Đã hủy</span>' : '<span class="chip ok">Hoàn tất</span>';
-    }
-    function firstErr(json, fallback) {
-      if (json && json.errors) {
-        var k = Object.keys(json.errors)[0];
-        if (k && json.errors[k] && json.errors[k][0]) return json.errors[k][0];
-      }
-      return (json && json.message) || fallback || 'Thất bại';
-    }
-    function esc(s) {
-      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
-      });
-    }
-    function initials(name) {
-      var p = String(name || '').trim().split(/\s+/);
-      if (!p[0]) return '?';
-      if (p.length === 1) return p[0].slice(0, 1).toUpperCase();
-      return (p[p.length - 2].slice(0, 1) + p[p.length - 1].slice(0, 1)).toUpperCase();
-    }
-    function ico(name) { return '<span class="ms">' + name + '</span>'; }
-
-    async function api(path, opt) {
-      opt = opt || {};
-      var headers = { Accept: 'application/json', Authorization: 'Bearer ' + token };
-      if (opt.body && !(opt.body instanceof FormData)) headers['Content-Type'] = 'application/json';
-      var ctrl = new AbortController();
-      var t = setTimeout(function () { ctrl.abort(); }, 20000);
-      var res, json = {};
-      try {
-        res = await fetch('/api' + path, {
-          method: opt.method || 'GET',
-          headers: headers,
-          body: opt.body ? (opt.body instanceof FormData ? opt.body : JSON.stringify(opt.body)) : undefined,
-          signal: ctrl.signal
-        });
-        json = await res.json().catch(function () { return {}; });
-      } finally { clearTimeout(t); }
-      if (res && res.status === 401) {
-        localStorage.removeItem('flutter.auth_token');
-        localStorage.removeItem('flutter.auth_user');
-        location.replace('/');
-        throw new Error('Hết phiên đăng nhập');
-      }
-      if (!res || !res.ok || json.success === false) throw new Error(firstErr(json, 'Không kết nối được máy chủ'));
-      return json;
-    }
-
-    function navHtml() {
-      var items = [
-        ['home', 'space_dashboard', 'Tổng quan'],
-        ['orders', 'receipt_long', 'Đơn hàng'],
-        ['products', 'inventory_2', 'Sản phẩm'],
-        ['stock', 'warehouse', 'Kho'],
-        ['more', 'widgets', 'Thêm']
-      ];
-      return items.map(function (it) {
-        return '<button type="button" data-tab="' + it[0] + '" class="' + (tab === it[0] ? 'on' : '') + '">' +
-          ico(it[1]) + '<span>' + it[2] + '</span></button>';
-      }).join('');
-    }
-
-    function render() {
-      document.getElementById('nav').innerHTML = navHtml();
-      document.getElementById('fab').classList.toggle('hidden', tab !== 'orders' && tab !== 'products' && tab !== 'stock');
-      var app = document.getElementById('app');
-      if (tab === 'home') app.innerHTML = viewHome();
-      else if (tab === 'orders') app.innerHTML = viewList('Đơn hàng', 'Theo dõi bán hàng trong ngày', viewOrdersBody());
-      else if (tab === 'products') app.innerHTML = viewList('Sản phẩm', 'Kho và giá bán', viewProductsBody());
-      else if (tab === 'stock') app.innerHTML = viewList('Kho', 'Phiếu nhập gần đây', viewStockBody());
-      else app.innerHTML = viewMore();
-    }
-
-    function viewList(title, sub, body) {
-      return '<div class="page-head"><h1>' + title + '</h1><p>' + sub + '</p></div>' + body;
-    }
-
-    function viewHome() {
-      var d = cache.dash;
-      var name = user.name || 'Bạn';
-      var role = user.role === 'admin' ? 'Quản trị' : 'Nhân viên';
-      var body = '<div class="empty">Đang tải tổng quan...</div>';
-      if (d) {
-        body =
-          '<div class="pad"><div class="stats">' +
-            stat('payments', '#FF6A00', money(d.today_revenue), 'Doanh thu hôm nay') +
-            stat('receipt_long', '#2F7BFF', d.today_orders, 'Đơn hôm nay') +
-            stat('trending_up', '#34C759', money(d.month_revenue), 'Doanh thu tháng') +
-            stat('inventory_2', '#AF52DE', (d.product_count || 0) + ' / ' + (d.low_stock_count || 0), 'Sản phẩm / sắp hết') +
-          '</div></div>' +
-          '<div class="section"><h3>Thao tác nhanh</h3></div>' +
-          '<div class="soft quick-wrap"><div class="quick">' +
-            tile('add_shopping_cart', '#FF6A00', 'Tạo đơn', 'new-order') +
-            tile('add_box', '#2F7BFF', 'Sản phẩm', 'new-product') +
-            tile('move_to_inbox', '#34C759', 'Nhập kho', 'new-stock') +
-            tile('list_alt', '#9B6BDB', 'Đơn hàng', null, 'orders') +
-          '</div></div>' +
-          '<div class="section"><h3>Đơn gần đây</h3><button type="button" data-tab="orders">Tất cả</button></div>' +
-          orderList(d.recent_orders || []) +
-          '<div class="section"><h3>Sắp hết hàng</h3><button type="button" data-tab="stock">Kho</button></div>' +
-          lowStock(d.low_stock || []);
-      } else if (cache.homeErr) {
-        body = '<div class="empty">' + esc(cache.homeErr) + '<br>Chạm Tổng quan để thử lại.</div>';
-      }
-      return '<div class="hero">' +
-        '<div class="hero-top"><div class="brand">KIỀU MI</div><div class="hero-actions">' +
-          '<button type="button" class="round">' + ico('search') + '</button>' +
-          '<button type="button" class="round">' + ico('notifications') + '</button>' +
-        '</div></div>' +
-        '<p class="greet">' + greet() + '</p>' +
-        '<h1>' + esc(name) + '</h1>' +
-        '<p class="role">' + role + '</p></div>' +
-        '<div class="page">' + body + '</div>';
-    }
-    function stat(icon, color, value, label) {
-      return '<button type="button" class="soft r14 stat" style="color:' + color + '">' +
-        ico(icon) + '<div class="v">' + value + '</div><div class="k">' + label + '</div></button>';
-    }
-    function tile(icon, color, label, go, t) {
-      var attr = go ? ' data-go="' + go + '"' : ' data-tab="' + t + '"';
-      return '<button type="button" class="tile"' + attr + '><div class="box" style="color:' + color + '">' + ico(icon) + '</div><span>' + label + '</span></button>';
-    }
-    function orderList(items) {
-      if (!items.length) return '<div class="pad"><div class="soft item"><div class="muted">Chưa có đơn hàng nào.</div></div></div>';
-      return '<div class="list">' + items.map(function (o) {
-        return '<button type="button" class="item" data-order="' + o.id + '"><div class="row">' +
-          '<div><b>' + esc(o.code) + '</b><div class="muted" style="margin-top:4px">' + esc(o.customer_name || 'Khách lẻ') + '</div></div>' +
-          '<div style="text-align:right"><b>' + money(o.total_amount) + '</b>' + chip(o.status) + '</div></div></button>';
-      }).join('') + '</div>';
-    }
-    function lowStock(items) {
-      if (!items.length) return '<div class="pad"><div class="soft item"><div class="muted">Tồn kho đang ổn.</div></div></div>';
-      return '<div class="hscroll">' + items.map(function (p) {
-        return '<div class="soft r14 stock-card"><b>' + esc(p.name) + '</b><div class="warn" style="margin-top:6px">Còn ' + p.stock_qty + '</div><div class="muted">' + money(p.listed_price) + '</div></div>';
-      }).join('') + '</div>';
-    }
-
-    function viewOrdersBody() {
-      return '<div class="search-wrap"><input class="search" id="q-orders" placeholder="Tìm mã đơn, khách hàng"></div>' +
-        (cache.orders.length ? orderList(cache.orders) : '<div class="empty">Đang tải đơn hàng...</div>');
-    }
-    function viewProductsBody() {
-      var rows = cache.products.map(function (p) {
-        return '<button type="button" class="item" data-product="' + p.id + '"><div class="row">' +
-          '<div><b>' + esc(p.name) + '</b><div class="muted" style="margin-top:4px">' + esc(p.sku || 'Không mã') + ' · ' + money(p.listed_price) + '</div></div>' +
-          '<div style="text-align:right"><b>Kho ' + p.stock_qty + '</b><div class="muted">' + (p.is_active ? 'Đang bán' : 'Đã ẩn') + '</div></div></div></button>';
-      }).join('');
-      return '<div class="search-wrap"><input class="search" id="q-products" placeholder="Tìm tên, mã SKU"></div>' +
-        (rows ? '<div class="list">' + rows + '</div>' : '<div class="empty">Đang tải sản phẩm...</div>');
-    }
-    function viewStockBody() {
-      var rows = cache.stock.map(function (s) {
-        return '<div class="item"><div class="row"><div><b>' + esc(s.product_name || 'Sản phẩm') + '</b><div class="muted" style="margin-top:4px">' + when(s.created_at) + (s.note ? ' · ' + esc(s.note) : '') + '</div></div><div class="warn">+' + s.quantity + '</div></div></div>';
-      }).join('');
-      return rows ? '<div class="list" style="padding-top:14px">' + rows + '</div>' : '<div class="empty">Đang tải phiếu nhập...</div>';
-    }
-    function viewMore() {
-      var admin = user.role === 'admin';
-      var name = user.name || 'Người dùng';
-      return '<div class="page" style="padding-top:calc(8px + env(safe-area-inset-top))">' +
-        '<div class="pad" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><h2 style="margin:0;font-size:20px;font-weight:700">Thêm</h2>' +
-        '<div style="display:flex;gap:6px"><button type="button" class="round" style="background:#fff;color:#2F7BFF;box-shadow:0 1px 4px rgba(0,0,0,.06)">' + ico('search') + '</button></div></div>' +
-        '<div class="pad"><div class="soft r12 profile"><div class="avatar">' + esc(initials(name)) + '</div>' +
-        '<div><b>' + esc(name) + '</b><div class="muted">' + (admin ? 'Quản trị' : 'Nhân viên') + '</div><div class="muted" style="font-size:12px">' + esc(user.email || '') + '</div></div></div></div>' +
-        '<div class="pad" style="margin-top:14px"><div class="muted" style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:10px">Thường dùng</div>' +
-        '<div class="soft"><div class="tile-grid">' +
-          tile('add_shopping_cart', '#FF6A00', 'Tạo đơn', 'new-order') +
-          tile('add_box', '#2F7BFF', 'Sản phẩm', 'new-product') +
-          tile('move_to_inbox', '#34C759', 'Nhập kho', 'new-stock') +
-          (admin ? tile('manage_accounts', '#AF52DE', 'Tài khoản', 'users') : '') +
-        '</div></div></div>' +
-        '<div class="pad" style="margin-top:14px"><div class="soft r12"><button type="button" class="logout" data-go="logout">' +
-          '<div class="ico">' + ico('logout') + '</div><div style="flex:1"><b>Đăng xuất</b><div class="muted">' + esc(user.email || '') + '</div></div>' + ico('chevron_right') +
-        '</button></div></div></div>';
-    }
-
-    function openSheet(html) {
-      var el = document.getElementById('sheet');
-      el.innerHTML = '<div class="box"><div class="grab"></div>' + html + '</div>';
-      el.classList.remove('hidden');
-    }
-    function closeSheet() {
-      document.getElementById('sheet').classList.add('hidden');
-      document.getElementById('sheet').innerHTML = '';
-    }
-
-    async function loadHome() {
-      try { cache.homeErr = null; cache.dash = (await api('/dashboard')).data || {}; }
-      catch (e) { cache.homeErr = e.message; }
-      if (tab === 'home') render();
-    }
-    async function loadOrders(q) {
-      cache.orders = (await api('/orders?per_page=40' + (q ? '&q=' + encodeURIComponent(q) : ''))).data || [];
-      if (tab === 'orders') render();
-    }
-    async function loadProducts(q) {
-      cache.products = (await api('/products?per_page=50' + (q ? '&q=' + encodeURIComponent(q) : ''))).data || [];
-      if (tab === 'products') render();
-    }
-    async function loadStock() {
-      cache.stock = (await api('/stock-imports?per_page=40')).data || [];
-      if (tab === 'stock') render();
-    }
-    function productOptions(selected) {
-      return cache.products.filter(function (p) { return p.is_active; }).map(function (p) {
-        return '<option value="' + p.id + '" ' + (String(selected) === String(p.id) ? 'selected' : '') + '>' + esc(p.name) + ' · kho ' + p.stock_qty + '</option>';
-      }).join('');
-    }
-    function showNewOrder() {
-      if (!cache.products.length) { loadProducts().then(showNewOrder).catch(function (e) { toast(e.message); }); return; }
-      openSheet('<h3>Tạo đơn hàng</h3>' +
-        '<div class="field"><label>Khách hàng</label><input id="o-name" placeholder="Khách lẻ"></div>' +
-        '<div class="field"><label>Số điện thoại</label><input id="o-phone" inputmode="tel" placeholder="090..."></div>' +
-        '<div id="o-items"><div class="line"><select class="o-p">' + productOptions() + '</select><input class="o-q" inputmode="numeric" value="1" style="max-width:72px"><button type="button" data-go="add-line">' + ico('add') + '</button></div></div>' +
-        '<div class="field"><label>Ghi chú</label><textarea id="o-note"></textarea></div>' +
-        '<button class="btn orange" id="o-save" type="button">Lưu đơn</button><div style="height:8px"></div><button class="btn sec" type="button" data-go="close">Đóng</button>');
-    }
-    function showNewProduct(p) {
-      p = p || {};
-      openSheet('<h3>' + (p.id ? 'Sửa sản phẩm' : 'Thêm sản phẩm') + '</h3>' +
-        '<div class="field"><label>Tên</label><input id="p-name" value="' + esc(p.name || '') + '"></div>' +
-        '<div class="field"><label>Giá bán</label><input id="p-price" inputmode="numeric" value="' + (p.listed_price || '') + '"></div>' +
-        '<div class="field"><label>Mã SKU</label><input id="p-sku" value="' + esc(p.sku || '') + '"></div>' +
-        (p.id ? '' : '<div class="field"><label>Tồn kho ban đầu</label><input id="p-qty" inputmode="numeric" value="0"></div>') +
-        '<div class="field"><label>Ghi chú</label><textarea id="p-note">' + esc(p.note || '') + '</textarea></div>' +
-        '<div class="field"><label>Ảnh</label><input id="p-image" type="file" accept="image/*"></div>' +
-        '<button class="btn" type="button" data-save-product="' + (p.id || '') + '">Lưu</button>' +
-        (p.id ? '<div style="height:8px"></div><button class="btn danger" type="button" data-del-product="' + p.id + '">Xóa / ẩn</button>' : '') +
-        '<div style="height:8px"></div><button class="btn sec" type="button" data-go="close">Đóng</button>');
-    }
-    function showNewStock() {
-      if (!cache.products.length) { loadProducts().then(showNewStock).catch(function (e) { toast(e.message); }); return; }
-      openSheet('<h3>Nhập kho</h3>' +
-        '<div class="field"><label>Sản phẩm</label><select id="s-p">' + productOptions() + '</select></div>' +
-        '<div class="field"><label>Số lượng</label><input id="s-q" inputmode="numeric" value="1"></div>' +
-        '<div class="field"><label>Ghi chú</label><input id="s-note"></div>' +
-        '<button class="btn orange" id="s-save" type="button">Nhập kho</button><div style="height:8px"></div><button class="btn sec" type="button" data-go="close">Đóng</button>');
-    }
-    async function showOrder(id) {
-      try {
-        var o = (await api('/orders/' + id)).data || {};
-        var items = (o.items || []).map(function (it) {
-          return '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><b style="font-size:14px">' + esc(it.product_name) + '</b><div class="muted">x' + it.quantity + ' · ' + money(it.sale_price) + '</div></div><b>' + money(it.line_total) + '</b></div>';
-        }).join('');
-        openSheet('<h3>' + esc(o.code) + '</h3><div class="muted">' + esc(o.customer_name || 'Khách lẻ') + (o.customer_phone ? ' · ' + esc(o.customer_phone) : '') + '</div>' +
-          '<div style="margin:10px 0">' + chip(o.status) + ' · <b>' + money(o.total_amount) + '</b></div>' +
-          '<div class="soft" style="padding:4px 14px">' + (items || '<div class="muted">Không có món</div>') + '</div>' +
-          (o.status !== 'cancelled' ? '<div style="height:12px"></div><button class="btn danger" type="button" data-cancel="' + o.id + '">Hủy đơn, hoàn kho</button>' : '') +
-          '<div style="height:8px"></div><button class="btn sec" type="button" data-go="close">Đóng</button>');
-      } catch (e) { toast(e.message); }
-    }
-    async function showUsers() {
-      try {
-        cache.users = (await api('/users?per_page=40')).data || [];
-        var rows = cache.users.map(function (u) {
-          return '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><b style="font-size:14px">' + esc(u.name) + '</b><div class="muted">' + esc(u.email) + ' · ' + (u.role === 'admin' ? 'Quản trị' : 'Nhân viên') + '</div></div></div>';
-        }).join('');
-        openSheet('<h3>Tài khoản</h3><div class="soft" style="padding:4px 14px;margin-bottom:14px">' + (rows || '<div class="muted">Chưa có tài khoản</div>') + '</div>' +
-          '<div class="field"><label>Tên</label><input id="u-name"></div><div class="field"><label>Email</label><input id="u-email" type="email"></div>' +
-          '<div class="field"><label>Mật khẩu</label><input id="u-pass" type="password"></div>' +
-          '<div class="field"><label>Vai trò</label><select id="u-role"><option value="staff">Nhân viên</option><option value="admin">Quản trị</option></select></div>' +
-          '<button class="btn" id="u-save" type="button">Tạo tài khoản</button><div style="height:8px"></div><button class="btn sec" type="button" data-go="close">Đóng</button>');
-      } catch (e) { toast(e.message); }
-    }
-    async function logout() {
-      try { await api('/logout', { method: 'POST', body: {} }); } catch (e) {}
-      localStorage.removeItem('flutter.auth_token');
-      localStorage.removeItem('flutter.auth_user');
-      location.replace('/');
-    }
-
-    document.getElementById('nav').onclick = function (e) {
-      var b = e.target.closest('[data-tab]');
-      if (!b) return;
-      tab = b.getAttribute('data-tab');
-      render();
-      if (tab === 'home') loadHome();
-      if (tab === 'orders') loadOrders().catch(function (err) { toast(err.message); });
-      if (tab === 'products') loadProducts().catch(function (err) { toast(err.message); });
-      if (tab === 'stock') loadStock().catch(function (err) { toast(err.message); });
-    };
-    document.getElementById('fab').onclick = function () {
-      if (tab === 'orders') showNewOrder();
-      if (tab === 'products') showNewProduct();
-      if (tab === 'stock') showNewStock();
-    };
-    document.getElementById('app').onclick = function (e) {
-      var t = e.target.closest('[data-tab],[data-go],[data-order],[data-product]');
-      if (!t) return;
-      if (t.dataset.tab) {
-        tab = t.dataset.tab; render();
-        if (tab === 'orders') loadOrders().catch(function (err) { toast(err.message); });
-        if (tab === 'stock') loadStock().catch(function (err) { toast(err.message); });
-        return;
-      }
-      if (t.dataset.order) return showOrder(t.dataset.order);
-      if (t.dataset.product) {
-        var p = cache.products.find(function (x) { return String(x.id) === t.dataset.product; });
-        return showNewProduct(p || { id: t.dataset.product });
-      }
-      if (t.dataset.go === 'new-order') return showNewOrder();
-      if (t.dataset.go === 'new-product') return showNewProduct();
-      if (t.dataset.go === 'new-stock') return showNewStock();
-      if (t.dataset.go === 'users') return showUsers();
-      if (t.dataset.go === 'logout') return logout();
-    };
-    document.getElementById('app').oninput = function (e) {
-      if (e.target.id === 'q-orders') {
-        clearTimeout(e.target._t);
-        e.target._t = setTimeout(function () { loadOrders(e.target.value.trim()).catch(function (err) { toast(err.message); }); }, 300);
-      }
-      if (e.target.id === 'q-products') {
-        clearTimeout(e.target._t);
-        e.target._t = setTimeout(function () { loadProducts(e.target.value.trim()).catch(function (err) { toast(err.message); }); }, 300);
-      }
-    };
-    document.getElementById('sheet').onclick = async function (e) {
-      var t = e.target.closest('[data-go],[data-cancel],[data-save-product],[data-del-product],#o-save,#s-save,#u-save');
-      if (!t) return;
-      if (t.dataset.go === 'close') return closeSheet();
-      if (t.dataset.go === 'add-line') {
-        var wrap = document.getElementById('o-items');
-        var div = document.createElement('div');
-        div.className = 'line';
-        div.innerHTML = '<select class="o-p">' + productOptions() + '</select><input class="o-q" inputmode="numeric" value="1" style="max-width:72px"><button type="button" data-go="add-line">' + ico('add') + '</button>';
-        wrap.appendChild(div);
-        return;
-      }
-      if (t.id === 'o-save') {
-        t.disabled = true;
-        try {
-          var items = [].slice.call(document.querySelectorAll('#o-items .line')).map(function (line) {
-            var pid = line.querySelector('.o-p').value;
-            var p = cache.products.find(function (x) { return String(x.id) === String(pid); }) || {};
-            return { product_id: Number(pid), quantity: Number(line.querySelector('.o-q').value || 1), sale_price: Number(p.listed_price || 0) };
-          });
-          await api('/orders', { method: 'POST', body: {
-            customer_name: document.getElementById('o-name').value.trim() || null,
-            customer_phone: document.getElementById('o-phone').value.trim() || null,
-            note: document.getElementById('o-note').value.trim() || null,
-            items: items
-          }});
-          closeSheet(); toast('Đã tạo đơn hàng'); loadHome(); loadOrders(); loadProducts();
-        } catch (err) { toast(err.message); t.disabled = false; }
-        return;
-      }
-      if (t.dataset.cancel) {
-        if (!confirm('Hủy đơn này và hoàn kho?')) return;
-        try {
-          await api('/orders/' + t.dataset.cancel + '/cancel', { method: 'POST', body: {} });
-          closeSheet(); toast('Đã hủy đơn'); loadHome(); loadOrders(); loadProducts();
-        } catch (err) { toast(err.message); }
-        return;
-      }
-      if (t.dataset.saveProduct !== undefined) {
-        t.disabled = true;
-        try {
-          var fd = new FormData();
-          fd.append('name', document.getElementById('p-name').value.trim());
-          fd.append('listed_price', document.getElementById('p-price').value || '0');
-          fd.append('sku', document.getElementById('p-sku').value.trim());
-          fd.append('note', document.getElementById('p-note').value.trim());
-          fd.append('is_active', '1');
-          var qty = document.getElementById('p-qty');
-          if (qty) fd.append('initial_qty', qty.value || '0');
-          var img = document.getElementById('p-image').files[0];
-          if (img) fd.append('image', img);
-          var id = t.dataset.saveProduct;
-          await api(id ? '/products/' + id : '/products', { method: 'POST', body: fd });
-          closeSheet(); toast('Đã lưu sản phẩm'); loadProducts(); loadHome();
-        } catch (err) { toast(err.message); t.disabled = false; }
-        return;
-      }
-      if (t.dataset.delProduct) {
-        if (!confirm('Xóa hoặc ẩn sản phẩm này?')) return;
-        try {
-          await api('/products/' + t.dataset.delProduct, { method: 'DELETE' });
-          closeSheet(); toast('Đã xử lý sản phẩm'); loadProducts(); loadHome();
-        } catch (err) { toast(err.message); }
-        return;
-      }
-      if (t.id === 's-save') {
-        t.disabled = true;
-        try {
-          await api('/stock-imports', { method: 'POST', body: {
-            product_id: Number(document.getElementById('s-p').value),
-            quantity: Number(document.getElementById('s-q').value || 1),
-            note: document.getElementById('s-note').value.trim() || null
-          }});
-          closeSheet(); toast('Đã nhập kho'); loadStock(); loadProducts(); loadHome();
-        } catch (err) { toast(err.message); t.disabled = false; }
-        return;
-      }
-      if (t.id === 'u-save') {
-        t.disabled = true;
-        try {
-          await api('/users', { method: 'POST', body: {
-            name: document.getElementById('u-name').value.trim(),
-            email: document.getElementById('u-email').value.trim(),
-            password: document.getElementById('u-pass').value,
-            role: document.getElementById('u-role').value
-          }});
-          toast('Đã tạo tài khoản'); showUsers();
-        } catch (err) { toast(err.message); t.disabled = false; }
-      }
-    };
-
-    render();
-    loadHome();
-    loadProducts().catch(function () {});
-  </script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

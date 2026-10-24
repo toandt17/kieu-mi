@@ -21,6 +21,12 @@ class StockImportController extends Controller
         if ($request->filled('product_id')) {
             $query->where('product_id', $request->integer('product_id'));
         }
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->query('from'));
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->query('to'));
+        }
 
         $imports = $query->paginate((int) $request->query('per_page', 30));
         $imports->getCollection()->transform(fn (StockImport $item) => $item->toApiArray());
@@ -53,5 +59,12 @@ class StockImportController extends Controller
             'Đã nhập kho',
             201
         );
+    }
+
+    public function show(StockImport $stockImport): JsonResponse
+    {
+        $stockImport->load(['product', 'user']);
+
+        return ApiResponse::success($stockImport->toApiArray());
     }
 }

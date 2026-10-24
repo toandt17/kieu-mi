@@ -22,5 +22,11 @@ class AppServiceProvider extends ServiceProvider
         if (str_starts_with((string) config('app.url'), 'https://')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
+
+        try {
+            \App\Support\EnsureSalesSchema::run();
+        } catch (\Throwable) {
+            // Artisan / missing DB during boot.
+        }
     }
 }

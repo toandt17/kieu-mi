@@ -14,6 +14,7 @@ class OrderItem extends Model
         'listed_price',
         'sale_price',
         'quantity',
+        'returned_qty',
         'line_total',
     ];
 
@@ -23,6 +24,7 @@ class OrderItem extends Model
             'listed_price' => 'integer',
             'sale_price' => 'integer',
             'quantity' => 'integer',
+            'returned_qty' => 'integer',
             'line_total' => 'integer',
         ];
     }
@@ -47,6 +49,8 @@ class OrderItem extends Model
             'listed_price' => $this->listed_price,
             'sale_price' => $this->sale_price,
             'quantity' => $this->quantity,
+            'returned_qty' => (int) $this->returned_qty,
+            'returnable_qty' => max(0, $this->quantity - (int) $this->returned_qty),
             'line_total' => $this->line_total,
         ];
     }

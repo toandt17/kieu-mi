@@ -57,6 +57,7 @@ class User extends Authenticatable
             'role' => $this->role,
             'is_active' => $this->is_active,
             'created_at' => optional($this->created_at)?->toIso8601String(),
+            'updated_at' => optional($this->updated_at)?->toIso8601String(),
         ];
     }
 }

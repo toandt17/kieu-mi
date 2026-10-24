@@ -31,6 +31,21 @@ function kieu_mi_send_html(string $path): void
     exit;
 }
 
+if (preg_match('#^/app\.js$#', $uri)) {
+    foreach ([
+        __DIR__.'/app.js',
+        '/home/fkssbbakhosting/public_html/mi.daothanhtoan.com/app.js',
+        '/home/fkssbbakhosting/repositories/kieu-mi/deploy/app.js',
+    ] as $path) {
+        if (is_file($path) && filesize($path) > 200) {
+            header('Content-Type: application/javascript; charset=UTF-8');
+            header('Cache-Control: no-cache');
+            readfile($path);
+            exit;
+        }
+    }
+}
+
 if (preg_match('#^/app\.html$#', $uri)) {
     foreach ([
         __DIR__.'/app.html',

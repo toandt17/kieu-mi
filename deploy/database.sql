@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   `listed_price` bigint unsigned NOT NULL DEFAULT 0,
   `sale_price` bigint unsigned NOT NULL,
   `quantity` int unsigned NOT NULL,
+  `returned_qty` int unsigned NOT NULL DEFAULT 0,
   `line_total` bigint unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -116,6 +117,39 @@ INSERT INTO `stock_imports` (`product_id`, `user_id`, `quantity`, `unit_cost`, `
 (4, 1, 80, 15950, 'Nhập kho ban đầu', NOW(), NOW()),
 (5, 1, 30, 81950, 'Nhập kho ban đầu', NOW(), NOW()),
 (6, 1, 22, 65450, 'Nhập kho ban đầu', NOW(), NOW());
+
+CREATE TABLE IF NOT EXISTS `order_returns` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) NOT NULL,
+  `order_id` bigint unsigned NOT NULL,
+  `reason` varchar(120) NOT NULL,
+  `note` text,
+  `total_amount` bigint unsigned NOT NULL DEFAULT 0,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_returns_code_unique` (`code`),
+  KEY `order_returns_order_id_foreign` (`order_id`),
+  KEY `order_returns_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `order_return_items` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_return_id` bigint unsigned NOT NULL,
+  `order_item_id` bigint unsigned DEFAULT NULL,
+  `product_id` bigint unsigned DEFAULT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `quantity` int unsigned NOT NULL,
+  `sale_price` bigint unsigned NOT NULL DEFAULT 0,
+  `line_total` bigint unsigned NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_return_items_return_id_foreign` (`order_return_id`),
+  KEY `order_return_items_item_id_foreign` (`order_item_id`),
+  KEY `order_return_items_product_id_foreign` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `orders` (`id`, `code`, `customer_name`, `customer_phone`, `status`, `total_amount`, `note`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 'DH2610240001', 'Nguyễn Thị Hoa', '0988111222', 'completed', 475000, 'Đơn mẫu', 2, NOW(), NOW()),

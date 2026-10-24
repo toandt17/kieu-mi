@@ -29,6 +29,12 @@ class OrderController extends Controller
         if ($request->filled('status')) {
             $query->where('status', $request->query('status'));
         }
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->query('from'));
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->query('to'));
+        }
 
         $orders = $query->paginate((int) $request->query('per_page', 20));
         $orders->getCollection()->transform(fn (Order $order) => $order->toApiArray());

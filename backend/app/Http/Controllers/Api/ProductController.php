@@ -25,8 +25,17 @@ class ProductController extends Controller
             });
         }
 
-        if ($request->boolean('active_only')) {
+        if ($request->boolean('active_only') || $request->query('active') === '1') {
             $query->where('is_active', true);
+        } elseif ($request->query('active') === '0') {
+            $query->where('is_active', false);
+        }
+
+        $stock = (string) $request->query('stock', '');
+        if ($stock === 'low') {
+            $query->where('is_active', true)->where('stock_qty', '>', 0)->where('stock_qty', '<=', 5);
+        } elseif ($stock === 'out') {
+            $query->where('stock_qty', 0);
         }
 
         $products = $query->paginate((int) $request->query('per_page', 30));

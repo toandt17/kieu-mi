@@ -6,6 +6,7 @@ deployment:
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/index.html
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/login.html
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/app.html /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/app.html
+    - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/app.js /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/app.js
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/index.php /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/index.php
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/deploy/.htaccess /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/.htaccess
     - /bin/cp -f /home/fkssbbakhosting/repositories/kieu-mi/frontend/web/apple-touch-icon.png /home/fkssbbakhosting/public_html/mi.daothanhtoan.com/apple-touch-icon.png

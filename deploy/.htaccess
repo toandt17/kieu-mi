@@ -18,6 +18,7 @@
     RewriteRule ^login\.html$ - [L]
     RewriteRule ^index\.html$ - [L]
     RewriteRule ^app\.html$ index.php [L,QSA]
+    RewriteRule ^app\.js$ index.php [L,QSA]
     RewriteRule ^(api|up|storage)(/.*)?$ index.php [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME} !-d

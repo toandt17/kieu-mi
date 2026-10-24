@@ -35,6 +35,11 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function returns(): HasMany
+    {
+        return $this->hasMany(OrderReturn::class);
+    }
+
     public function toApiArray(bool $withItems = false): array
     {
         $data = [
@@ -46,14 +51,25 @@ class Order extends Model
             'total_amount' => $this->total_amount,
             'note' => $this->note,
             'user_name' => $this->user?->name,
+            'user_email' => $this->user?->email,
             'item_count' => $this->relationLoaded('items')
                 ? $this->items->count()
                 : $this->items()->count(),
+            'qty_total' => $this->relationLoaded('items')
+                ? (int) $this->items->sum('quantity')
+                : (int) $this->items()->sum('quantity'),
             'created_at' => optional($this->created_at)?->toIso8601String(),
+            'updated_at' => optional($this->updated_at)?->toIso8601String(),
         ];
 
         if ($withItems) {
             $data['items'] = $this->items->map(fn (OrderItem $item) => $item->toApiArray())->values();
+            $data['returns'] = $this->returns()
+                ->with('items', 'user')
+                ->latest()
+                ->get()
+                ->map(fn (OrderReturn $item) => $item->toApiArray(true))
+                ->values();
         }
 
         return $data;

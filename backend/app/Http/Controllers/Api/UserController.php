@@ -29,6 +29,11 @@ class UserController extends Controller
         return ApiResponse::success($users);
     }
 
+    public function show(User $user): JsonResponse
+    {
+        return ApiResponse::success($user->toApiArray());
+    }
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
