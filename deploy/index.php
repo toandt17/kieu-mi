@@ -10,7 +10,9 @@ $isApi = (bool) preg_match('#^/(api|up|storage)(/|$)#', $uri);
 function kieu_mi_frontend_file(string $name): ?string
 {
     foreach ([
+        __DIR__.'/home.html',
         __DIR__.'/'.$name,
+        '/home/fkssbbakhosting/repositories/kieu-mi/deploy/home.html',
         '/home/fkssbbakhosting/repositories/kieu-mi/frontend/build/web/'.$name,
         '/home/fkssbbakhosting/repositories/kieu-mi/frontend/web/'.$name,
     ] as $path) {

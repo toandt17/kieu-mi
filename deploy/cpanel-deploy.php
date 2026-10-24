@@ -104,12 +104,18 @@ function deployTo(string $repo, string $dest): void
     if (is_file($dest.'/index.html')) {
         @copy($dest.'/index.html', $dest.'/app.html');
     }
-    $loginPage = is_file($dest.'/login.html')
-        ? $dest.'/login.html'
-        : $repo.'/frontend/web/login.html';
+    $loginPage = is_file($repo.'/deploy/home.html')
+        ? $repo.'/deploy/home.html'
+        : (is_file($dest.'/login.html') ? $dest.'/login.html' : $repo.'/frontend/web/login.html');
     if (is_file($loginPage)) {
         @copy($loginPage, $dest.'/index.html');
         @copy($loginPage, $dest.'/login.html');
+    }
+    foreach (['apple-touch-icon.png', 'apple-touch-icon-precomposed.png', 'km-192.png', 'km-512.png', 'manifest.json'] as $name) {
+        $from = $repo.'/frontend/web/'.$name;
+        if (is_file($from)) {
+            @copy($from, $dest.'/'.$name);
+        }
     }
 }
 
