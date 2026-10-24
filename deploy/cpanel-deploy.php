@@ -160,6 +160,5 @@ function rcopy(string $src, string $dst, array $skip): void
 function writeLogs(string $home, string $repo, array $lines): void
 {
     $text = implode("\n", $lines)."\n";
-    @file_put_contents($repo.'/deploy/last-deploy.txt', $text);
     @file_put_contents($home.'/kieu-mi-deploy-log.txt', $text);
 }
