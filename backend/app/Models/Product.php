@@ -46,7 +46,7 @@ class Product extends Model
             return null;
         }
 
-        return url('storage/'.$this->image_path);
+        return '/storage/'.$this->image_path;
     }
 
     public function toApiArray(): array

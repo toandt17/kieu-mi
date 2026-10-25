@@ -12,6 +12,8 @@ class Order extends Model
         'code',
         'customer_name',
         'customer_phone',
+        'customer_address',
+        'shipper_address',
         'status',
         'total_amount',
         'note',
@@ -47,6 +49,11 @@ class Order extends Model
             'code' => $this->code,
             'customer_name' => $this->customer_name,
             'customer_phone' => $this->customer_phone,
+            'customer_address' => $this->customer_address,
+            'shipper_address' => $this->shipper_address,
+            'product_image_url' => $this->relationLoaded('items')
+                ? $this->items->first()?->product?->imageUrl()
+                : null,
             'status' => $this->status,
             'total_amount' => $this->total_amount,
             'note' => $this->note,

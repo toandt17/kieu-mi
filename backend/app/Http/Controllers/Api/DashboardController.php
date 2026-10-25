@@ -37,7 +37,7 @@ class DashboardController extends Controller
             ->values();
 
         $recentOrders = Order::query()
-            ->with('user')
+            ->with(['user', 'items.product'])
             ->withCount('items')
             ->latest()
             ->limit(6)

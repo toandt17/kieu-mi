@@ -13,6 +13,17 @@ class EnsureSalesSchema
             return;
         }
 
+        if (Schema::hasTable('orders') && ! Schema::hasColumn('orders', 'customer_address')) {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->text('customer_address')->nullable()->after('customer_phone');
+            });
+        }
+        if (Schema::hasTable('orders') && ! Schema::hasColumn('orders', 'shipper_address')) {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->text('shipper_address')->nullable()->after('customer_address');
+            });
+        }
+
         if (! Schema::hasColumn('order_items', 'returned_qty')) {
             Schema::table('order_items', function (Blueprint $table) {
                 $table->unsignedInteger('returned_qty')->default(0)->after('quantity');

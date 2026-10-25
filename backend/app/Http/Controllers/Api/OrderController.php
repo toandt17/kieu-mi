@@ -15,14 +15,16 @@ class OrderController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = Order::query()->with('user')->withCount('items')->latest();
+        $query = Order::query()->with(['user', 'items.product'])->withCount('items')->latest();
 
         $search = trim((string) $request->query('q', ''));
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('code', 'like', "%{$search}%")
                     ->orWhere('customer_name', 'like', "%{$search}%")
-                    ->orWhere('customer_phone', 'like', "%{$search}%");
+                    ->orWhere('customer_phone', 'like', "%{$search}%")
+                    ->orWhere('customer_address', 'like', "%{$search}%")
+                    ->orWhere('shipper_address', 'like', "%{$search}%");
             });
         }
 
@@ -54,6 +56,8 @@ class OrderController extends Controller
         $data = $request->validate([
             'customer_name' => ['nullable', 'string', 'max:160'],
             'customer_phone' => ['nullable', 'string', 'max:30'],
+            'customer_address' => ['nullable', 'string', 'max:500'],
+            'shipper_address' => ['nullable', 'string', 'max:500'],
             'note' => ['nullable', 'string', 'max:1000'],
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
@@ -92,6 +96,8 @@ class OrderController extends Controller
                 'code' => $this->nextCode(),
                 'customer_name' => $data['customer_name'] ?? null,
                 'customer_phone' => $data['customer_phone'] ?? null,
+                'customer_address' => $data['customer_address'] ?? null,
+                'shipper_address' => $data['shipper_address'] ?? null,
                 'status' => 'completed',
                 'total_amount' => $total,
                 'note' => $data['note'] ?? null,

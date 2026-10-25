@@ -46,7 +46,7 @@ class OrderReturnController extends Controller
 
     public function show(OrderReturn $orderReturn): JsonResponse
     {
-        $orderReturn->load(['items', 'order', 'user']);
+        $orderReturn->load(['items.product', 'order', 'user']);
 
         return ApiResponse::success($orderReturn->toApiArray(true));
     }
@@ -134,7 +134,7 @@ class OrderReturnController extends Controller
             );
             $order->update(['status' => $allReturned ? 'returned' : 'partial']);
 
-            return $ret->load(['items', 'order', 'user']);
+            return $ret->load(['items.product', 'order', 'user']);
         });
 
         return ApiResponse::success($ret->toApiArray(true), 'Đã tạo phiếu trả hàng', 201);

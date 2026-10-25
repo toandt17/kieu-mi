@@ -31,6 +31,11 @@ class OrderReturnItem extends Model
         return $this->belongsTo(OrderReturn::class);
     }
 
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function toApiArray(): array
     {
         return [
@@ -38,6 +43,7 @@ class OrderReturnItem extends Model
             'order_item_id' => $this->order_item_id,
             'product_id' => $this->product_id,
             'product_name' => $this->product_name,
+            'product_image_url' => $this->product?->imageUrl(),
             'quantity' => $this->quantity,
             'sale_price' => $this->sale_price,
             'line_total' => $this->line_total,

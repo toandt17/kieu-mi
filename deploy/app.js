@@ -48,7 +48,33 @@
     if (p.length === 1) return p[0].slice(0, 1).toUpperCase();
     return (p[p.length - 2].slice(0, 1) + p[p.length - 1].slice(0, 1)).toUpperCase();
   }
-  function ico(name) { return '<span class="ms">' + name + '</span>'; }
+  var ICONS = {
+    search: 'M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9.5 14C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z',
+    arrow_back: 'M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z',
+    add: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+    remove: 'M19 13H5v-2h14v2z',
+    close: 'M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
+    tune: 'M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z',
+    space_dashboard: 'M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z',
+    receipt_long: 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
+    inventory_2: 'M20 2H4c-1 0-2 .9-2 2v3c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.69c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-1 11H9v-2h10v2zm1-8H4V4h16v3z',
+    warehouse: 'M22 21V7L12 3 2 7v14h6v-8h8v8h6zm-11-2H9v-2h2v2zm2-3h-2v-2h2v2zm2 3h-2v-2h2v2z',
+    widgets: 'M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm10 5.66L16.66 5 13 1.34 9.34 5 13 8.66z',
+    add_shopping_cart: 'M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.17 14.75l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z',
+    add_box: 'M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z',
+    assignment_return: 'M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm4 12h-4v3l-5-5 5-5v3h4v4z',
+    move_to_inbox: 'M19 3H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.88 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H5V5h14v10zm-3-5h-2V7h-4v3H8l4 4 4-4z',
+    payments: 'M19 14V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-9-1c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm13-6v11c0 1.1-.9 2-2 2H4v-2h17V7h2z',
+    trending_up: 'M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z',
+    edit: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+    add_a_photo: 'M3 4V1h2v3h3v2H5v3H3V6H0V4h3zm3 6V7h3V4h7l1.83 2H21c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V10h3zm7 9c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z',
+    manage_accounts: 'M8 11c2.21 0 4-1.79 4-4S10.21 3 8 3 4 4.79 4 7s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h9.26c-.17-.3-.26-.65-.26-1 0-2.21 1.79-4 4-4 .31 0 .61.04.89.1C12.32 13.42 10.17 13 8 13zm9.5 7.5l-2.25-2.25.75-.75 1.5 1.5 3.5-3.5.75.75-4.25 4.25zM15 16c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z',
+    logout: 'M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z',
+    chevron_right: 'M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'
+  };
+  function ico(name) {
+    return '<svg class="ms" viewBox="0 0 24 24" aria-hidden="true"><path d="' + (ICONS[name] || ICONS.search) + '"></path></svg>';
+  }
   function toast(msg) {
     var el = document.getElementById('toast');
     el.textContent = msg;
@@ -154,7 +180,7 @@
       (extra || '') + '</div>';
   }
   function listBar(title, extra) {
-    return '<div class="topbar"><div class="grow"><h1>' + title + '</h1></div>' + (extra || '') + '</div>';
+    return '<div class="sticky-head"><div class="topbar"><div class="grow"><h1>' + title + '</h1></div>' + (extra || '') + '</div>';
   }
   function kv(label, value) {
     return '<div class="kv"><span>' + label + '</span><b>' + (value == null || value === '' ? '—' : value) + '</b></div>';
@@ -175,7 +201,11 @@
       '<button type="button" class="round light" data-filter="' + filterKey + '">' + ico('tune') +
         (filterOn(filterKey) ? '<i class="badge"></i>' : '') + '</button>' +
       (addPath ? '<button type="button" class="round light" data-go="' + addPath + '">' + ico('add') + '</button>' : '') +
-      '</div>';
+      '</div></div>';
+  }
+  function thumb(url) {
+    if (url) return '<img class="thumb" src="' + esc(url) + '" alt="">';
+    return '<div class="thumb">' + ico('inventory_2') + '</div>';
   }
 
   function render() {
@@ -237,7 +267,7 @@
       '<div class="gap"></div>' + body;
   }
   function stat(icon, color, value, label) {
-    return '<div class="soft stat" style="color:' + color + '">' + ico(icon) +
+    return '<div class="stat" style="color:' + color + '">' + ico(icon) +
       '<div class="v">' + value + '</div><div class="k">' + label + '</div></div>';
   }
   function tile(icon, color, label, path) {
@@ -254,14 +284,16 @@
     else extra.push('Khách lẻ');
     if (o.qty_total) extra.push(o.qty_total + ' SP');
     else if (o.item_count) extra.push(o.item_count + ' món');
-    return '<button type="button" class="item" data-go="/orders/' + o.id + '"><div class="row">' +
-      '<div><b>' + esc(o.code) + '</b><div class="muted" style="margin-top:3px">' + extra.join(' · ') + '</div></div>' +
+    return '<button type="button" class="item" data-go="/orders/' + o.id + '"><div class="row media">' +
+      thumb(o.product_image_url) +
+      '<div class="grow"><b>' + esc(o.code) + '</b><div class="muted" style="margin-top:3px">' + extra.join(' · ') + '</div></div>' +
       '<div style="text-align:right"><b>' + money(o.total_amount) + '</b><div style="margin-top:4px">' + statusChip(o.status) + '</div></div></div></button>';
   }
   function lowStock(items) {
     if (!items.length) return '<div class="pad"><div class="soft item"><div class="muted">Tồn kho đang ổn.</div></div></div>';
     return '<div class="hscroll">' + items.map(function (p) {
-      return '<button type="button" class="soft stock-card" data-go="/products/' + p.id + '"><b>' + esc(p.name) +
+      return '<button type="button" class="soft stock-card" data-go="/products/' + p.id + '">' + thumb(p.image_url) +
+        '<b>' + esc(p.name) +
         '</b><div class="muted" style="margin-top:6px;color:#c45300;font-weight:700">Còn ' + p.stock_qty + '</div><div class="muted">' + money(p.listed_price) + '</div></button>';
     }).join('') + '</div>';
   }
@@ -269,7 +301,7 @@
   function viewOrders() {
     return listBar('Đơn hàng') +
       searchRow('q-orders', 'Tìm mã đơn, khách, SĐT', 'orders', '/orders/new') +
-      (cache.orders.length ? '<div class="list" style="padding-top:12px">' + cache.orders.map(orderRow).join('') + '</div>' : '<div class="empty">Đang tải đơn hàng...</div>');
+      (cache.orders.length ? '<div class="list">' + cache.orders.map(orderRow).join('') + '</div>' : '<div class="empty">Đang tải đơn hàng...</div>');
   }
   function viewOrderDetail(id) {
     var o = cache.order;
@@ -281,7 +313,7 @@
     var net = Math.max(0, Number(o.total_amount || 0) - returnedAmt);
     var items = (o.items || []).map(function (it, i) {
       return '<div class="soft line-item">' +
-        '<div class="row"><b>' + (i + 1) + '. ' + esc(it.product_name) + '</b><b>' + money(it.line_total) + '</b></div>' +
+        '<div class="row media">' + thumb(it.product_image_url) + '<div class="grow"><b>' + (i + 1) + '. ' + esc(it.product_name) + '</b></div><b>' + money(it.line_total) + '</b></div>' +
         kv('Giá niêm yết', money(it.listed_price)) +
         kv('Giá bán ra', money(it.sale_price)) +
         kv('Số lượng', it.quantity + ' sản phẩm') +
@@ -296,9 +328,11 @@
     return pageBar('Chi tiết đơn hàng') +
       card('', '<div class="row"><div><b style="font-size:18px">' + esc(o.code) + '</b><div class="muted" style="margin-top:4px">' + whenFull(o.created_at) + '</div></div>' + statusChip(o.status) + '</div>') +
       card('Khách hàng',
-        kv('Bán cho', esc(o.customer_name || 'Khách lẻ')) +
+        kv('Người nhận', esc(o.customer_name || 'Khách lẻ')) +
         kv('Số điện thoại', esc(o.customer_phone || 'Không có')) +
-        kv('Ghi chú khách', esc(o.note || 'Không có'))
+        kv('Địa chỉ người nhận', esc(o.customer_address || 'Không có')) +
+        kv('Địa chỉ người giao', esc(o.shipper_address || 'Không có')) +
+        kv('Ghi chú', esc(o.note || 'Không có'))
       ) +
       card('Thông tin đơn',
         kv('Trạng thái', statusLabel(o.status)) +
@@ -321,11 +355,11 @@
       '</div>';
   }
   function viewOrderForm() {
-    draft.order = draft.order || { name: '', phone: '', note: '', items: [] };
+    draft.order = draft.order || { name: '', phone: '', address: '', shipper: '', note: '', items: [] };
     var d = draft.order;
     var total = d.items.reduce(function (s, it) { return s + it.sale_price * it.quantity; }, 0);
     var rows = d.items.map(function (it, i) {
-      return '<div class="soft item"><div class="row"><div><b>' + esc(it.name) + '</b><div class="muted">Kho ' + it.stock + ' · ' + money(it.listed) + '</div></div>' +
+      return '<div class="soft item"><div class="row media">' + thumb(it.image) + '<div class="grow"><b>' + esc(it.name) + '</b><div class="muted">Kho ' + it.stock + ' · ' + money(it.listed) + '</div></div>' +
         '<button type="button" class="round light" data-rm-item="' + i + '">' + ico('close') + '</button></div>' +
         '<div class="line" style="margin-top:8px"><input data-price="' + i + '" inputmode="numeric" value="' + it.sale_price + '" style="flex:1">' +
         qtyHtml(i, it.quantity) + '</div>' +
@@ -333,19 +367,26 @@
     }).join('');
     return pageBar('Tạo đơn hàng') + '<div class="gap"></div>' +
       '<div class="pad"><div class="soft item">' +
-        field('Tên khách', 'o-name', d.name, 'Khách lẻ') +
+        field('Tên người nhận', 'o-name', d.name, 'Khách lẻ') +
         field('Số điện thoại', 'o-phone', d.phone, '090...') +
+        field('Địa chỉ người nhận hàng', 'o-address', d.address, 'Số nhà, đường, phường...', 'textarea') +
+        field('Địa chỉ người giao', 'o-shipper', d.shipper, 'Địa chỉ bên giao hàng...', 'textarea') +
         field('Ghi chú', 'o-note', d.note, '') +
       '</div></div>' +
-      '<div class="sec"><h3>Sản phẩm</h3><button type="button" class="link" data-pick-product>Thêm</button></div>' +
-      '<div class="list">' + (rows || '<div class="soft item"><div class="muted">Chọn sản phẩm, chỉnh giá bán và số lượng.</div></div>') + '</div>' +
+      '<div class="sec"><h3>Sản phẩm</h3>' + (d.items.length ? '<button type="button" class="link" data-pick-product>Thêm</button>' : '') + '</div>' +
+      (rows
+        ? '<div class="list">' + rows + '</div>'
+        : '<div class="pad"><button type="button" class="btn sec" data-pick-product>Thêm sản phẩm</button><div class="muted" style="margin-top:8px;text-align:center">Chọn hàng, rồi chỉnh giá bán và số lượng.</div></div>') +
       '<div class="footbar"><div class="grow"><div class="muted">Tổng thanh toán</div><b>' + money(total) + '</b></div>' +
       '<button class="btn o sm" type="button" id="o-save">Lưu đơn</button></div>';
   }
   function qtyHtml(i, v) {
-    return '<div class="qty"><button type="button" data-qty="' + i + '" data-d="-1">' + ico('remove') + '</button><b>' + v + '</b><button type="button" data-qty="' + i + '" data-d="1">' + ico('add') + '</button></div>';
+    return '<div class="qty"><button type="button" data-qty="' + i + '" data-d="-1">−</button><b>' + v + '</b><button type="button" data-qty="' + i + '" data-d="1">+</button></div>';
   }
   function field(label, id, value, ph, type) {
+    if (type === 'textarea') {
+      return '<div class="field"><label for="' + id + '">' + label + '</label><textarea id="' + id + '" placeholder="' + (ph || '') + '">' + esc(value || '') + '</textarea></div>';
+    }
     return '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="' + (type || 'text') + '" value="' + esc(value || '') + '" placeholder="' + (ph || '') + '"></div>';
   }
 
@@ -363,18 +404,20 @@
     var rows = (o.items || []).map(function (it) {
       var max = it.returnable_qty != null ? it.returnable_qty : (it.quantity - (it.returned_qty || 0));
       var q = draft.ret.qty[it.id] || 0;
-      if (max <= 0) return '<div class="soft item"><b>' + esc(it.product_name) + '</b><div class="muted">Đã trả hết</div></div>';
-      return '<div class="soft item"><div class="row"><div><b>' + esc(it.product_name) + '</b><div class="muted">' + money(it.sale_price) + ' · còn trả ' + max + '</div></div>' +
-        '<div class="qty"><button type="button" data-rq="' + it.id + '" data-max="' + max + '" data-d="-1">' + ico('remove') + '</button><b>' + q + '</b><button type="button" data-rq="' + it.id + '" data-max="' + max + '" data-d="1">' + ico('add') + '</button></div></div></div>';
+      if (max <= 0) return '<div class="soft item"><div class="row media">' + thumb(it.product_image_url) + '<div class="grow"><b>' + esc(it.product_name) + '</b><div class="muted">Đã trả hết</div></div></div></div>';
+      return '<div class="soft item"><div class="row media">' + thumb(it.product_image_url) + '<div class="grow"><b>' + esc(it.product_name) + '</b><div class="muted">' + money(it.sale_price) + ' · còn trả ' + max + '</div></div>' +
+        '<div class="qty"><button type="button" data-rq="' + it.id + '" data-max="' + max + '" data-d="-1">−</button><b>' + q + '</b><button type="button" data-rq="' + it.id + '" data-max="' + max + '" data-d="1">+</button></div></div></div>';
     }).join('');
     var total = (o.items || []).reduce(function (s, it) { return s + (draft.ret.qty[it.id] || 0) * it.sale_price; }, 0);
     return pageBar('Tạo phiếu trả') +
-      card('Đơn gốc', kv('Mã đơn', esc(o.code)) + kv('Khách hàng', esc(o.customer_name || 'Khách lẻ')) + kv('SĐT', esc(o.customer_phone || '—')) + kv('Tổng đơn', money(o.total_amount))) +
+      card('Đơn gốc', kv('Mã đơn', esc(o.code)) + kv('Người nhận', esc(o.customer_name || 'Khách lẻ')) + kv('SĐT', esc(o.customer_phone || '—')) + kv('Địa chỉ nhận', esc(o.customer_address || '—')) + kv('Địa chỉ giao', esc(o.shipper_address || '—')) + kv('Tổng đơn', money(o.total_amount))) +
       '<div class="pad"><div class="soft item"><div class="field"><label>Lý do</label><select id="r-reason">' +
         ['Đổi ý', 'Lỗi sản phẩm', 'Sai hàng', 'Khách không vừa', 'Khác'].map(function (x) {
           return '<option' + (draft.ret.reason === x ? ' selected' : '') + '>' + x + '</option>';
         }).join('') + '</select></div>' + field('Ghi chú', 'r-note', draft.ret.note) + '</div></div>' +
-      '<div class="sec"><h3>Chọn số lượng trả</h3></div><div class="list">' + rows + '</div>' +
+      '<div class="sec"><h3>Chọn số lượng trả</h3></div>' +
+      '<div class="pad" style="padding-bottom:8px"><div class="muted">Bấm + để chọn số lượng cần trả.</div></div>' +
+      '<div class="list">' + rows + '</div>' +
       '<div class="footbar"><div class="grow"><div class="muted">Hoàn tiền</div><b>' + money(total) + '</b></div>' +
       '<button class="btn o sm" type="button" id="r-save" data-oid="' + o.id + '">Lưu phiếu</button></div>';
   }
@@ -384,7 +427,7 @@
     }).join('');
     return listBar('Phiếu trả hàng') +
       searchRow('q-returns', 'Tìm mã phiếu, đơn, khách', 'returns', '/returns/new') +
-      (rows ? '<div class="list" style="padding-top:12px">' + rows + '</div>' : '<div class="empty">Chưa có phiếu trả.</div>');
+      (rows ? '<div class="list">' + rows + '</div>' : '<div class="empty">Chưa có phiếu trả.</div>');
   }
   function viewReturnDetail(id) {
     var r = cache.returnOne;
@@ -392,7 +435,7 @@
     var qty = (r.items || []).reduce(function (s, it) { return s + Number(it.quantity || 0); }, 0);
     var items = (r.items || []).map(function (it, i) {
       return '<div class="soft line-item">' +
-        '<div class="row"><b>' + (i + 1) + '. ' + esc(it.product_name) + '</b><b>' + money(it.line_total) + '</b></div>' +
+        '<div class="row media">' + thumb(it.product_image_url) + '<div class="grow"><b>' + (i + 1) + '. ' + esc(it.product_name) + '</b></div><b>' + money(it.line_total) + '</b></div>' +
         kv('Giá bán lúc mua', money(it.sale_price)) +
         kv('Số lượng trả', it.quantity + ' sản phẩm') +
         kv('Hoàn tiền dòng', money(it.line_total)) +
@@ -402,7 +445,10 @@
       card('', '<div class="row"><div><b style="font-size:18px">' + esc(r.code) + '</b><div class="muted" style="margin-top:4px">' + whenFull(r.created_at) + '</div></div><span class="chip warn">Phiếu trả</span></div>') +
       card('Thông tin phiếu',
         kv('Đơn gốc', esc(r.order_code || '—')) +
-        kv('Khách hàng', esc(r.customer_name || 'Khách lẻ')) +
+        kv('Người nhận', esc(r.customer_name || 'Khách lẻ')) +
+        kv('Số điện thoại', esc(r.customer_phone || '—')) +
+        kv('Địa chỉ người nhận', esc(r.customer_address || '—')) +
+        kv('Địa chỉ người giao', esc(r.shipper_address || '—')) +
         kv('Lý do trả', esc(r.reason)) +
         kv('Ghi chú', esc(r.note || 'Không có')) +
         kv('Người lập', esc(r.user_name || '—')) +
@@ -416,20 +462,21 @@
 
   function viewProducts() {
     var rows = cache.products.map(function (p) {
-      return '<button type="button" class="item" data-go="/products/' + p.id + '"><div class="row">' +
-        '<div><b>' + esc(p.name) + '</b><div class="muted">' + esc(p.sku || 'Không mã') + ' · ' + money(p.listed_price) + '</div></div>' +
+      return '<button type="button" class="item" data-go="/products/' + p.id + '"><div class="row media">' +
+        thumb(p.image_url) +
+        '<div class="grow"><b>' + esc(p.name) + '</b><div class="muted">' + esc(p.sku || 'Không mã') + ' · ' + money(p.listed_price) + '</div></div>' +
         '<div style="text-align:right"><b>Kho ' + p.stock_qty + '</b><div class="muted">' + (p.is_active ? 'Đang bán' : 'Đã ẩn') + '</div></div></div></button>';
     }).join('');
     return listBar('Sản phẩm') +
       searchRow('q-products', 'Tìm tên, mã SKU', 'products', '/products/new') +
-      (rows ? '<div class="list" style="padding-top:12px">' + rows + '</div>' : '<div class="empty">Đang tải sản phẩm...</div>');
+      (rows ? '<div class="list">' + rows + '</div>' : '<div class="empty">Đang tải sản phẩm...</div>');
   }
   function viewProductDetail(id) {
     var p = cache.product;
     if (!p || String(p.id) !== String(id)) return pageBar('Chi tiết sản phẩm') + '<div class="empty">Đang tải...</div>';
     return pageBar('Chi tiết sản phẩm', '<button type="button" class="round ghost" data-go="/products/' + p.id + '/edit">' + ico('edit') + '</button>') +
       '<div class="pad" style="margin-top:12px"><div class="soft" style="overflow:hidden">' +
-        (p.image_url ? '<div class="img-pick" style="margin:0;border-radius:12px 12px 0 0;height:180px"><img src="' + esc(p.image_url) + '" alt=""></div>' : '<div class="img-pick" style="margin:0;border-radius:12px 12px 0 0">' + ico('inventory_2') + '</div>') +
+        (p.image_url ? '<div class="img-pick" style="margin:0;border-radius:7px 7px 0 0;height:180px"><img src="' + esc(p.image_url) + '" alt=""></div>' : '<div class="img-pick" style="margin:0;border-radius:7px 7px 0 0">' + ico('inventory_2') + '</div>') +
         '<div class="card"><b style="font-size:20px">' + esc(p.name) + '</b><div class="muted" style="margin-top:4px">' + (p.sku ? 'SKU: ' + esc(p.sku) : 'Chưa có mã SKU') + '</div></div>' +
       '</div></div>' +
       card('Giá & kho',
@@ -467,17 +514,19 @@
 
   function viewStock() {
     var rows = cache.stock.map(function (s) {
-      return '<button type="button" class="item" data-go="/stock/' + s.id + '"><div class="row"><div><b>' + esc(s.product_name || 'Sản phẩm') + '</b><div class="muted">' + when(s.created_at) + (s.user_name ? ' · ' + esc(s.user_name) : '') + (s.note ? ' · ' + esc(s.note) : '') + '</div></div><b style="color:#c45300">+' + s.quantity + '</b></div></button>';
+      return '<button type="button" class="item" data-go="/stock/' + s.id + '"><div class="row media">' +
+        thumb(s.product_image_url) +
+        '<div class="grow"><b>' + esc(s.product_name || 'Sản phẩm') + '</b><div class="muted">' + when(s.created_at) + (s.user_name ? ' · ' + esc(s.user_name) : '') + (s.note ? ' · ' + esc(s.note) : '') + '</div></div><b style="color:#c45300">+' + s.quantity + '</b></div></button>';
     }).join('');
     return listBar('Nhập kho') +
       searchRow('q-stock', 'Lọc theo ngày ở nút bộ lọc', 'stock', '/stock/new') +
-      (rows ? '<div class="list" style="padding-top:12px">' + rows + '</div>' : '<div class="empty">Đang tải phiếu nhập...</div>');
+      (rows ? '<div class="list">' + rows + '</div>' : '<div class="empty">Đang tải phiếu nhập...</div>');
   }
   function viewStockDetail(id) {
     var s = cache.stockOne;
     if (!s || String(s.id) !== String(id)) return pageBar('Chi tiết phiếu nhập') + '<div class="empty">Đang tải...</div>';
     return pageBar('Chi tiết phiếu nhập') +
-      card('', '<div class="row"><div><b style="font-size:18px">' + esc(s.product_name || 'Sản phẩm') + '</b><div class="muted" style="margin-top:4px">' + whenFull(s.created_at) + '</div></div><span class="chip info">Nhập kho</span></div>') +
+      card('', '<div class="row media">' + thumb(s.product_image_url) + '<div class="grow"><b style="font-size:18px">' + esc(s.product_name || 'Sản phẩm') + '</b><div class="muted" style="margin-top:4px">' + whenFull(s.created_at) + '</div></div><span class="chip info">Nhập kho</span></div>') +
       card('Sản phẩm',
         kv('Tên hàng', esc(s.product_name || '—')) +
         kv('Mã SKU', esc(s.product_sku || 'Không mã')) +
@@ -513,8 +562,8 @@
     var rows = cache.users.map(function (u) {
       return '<button type="button" class="item" data-go="/users/' + u.id + '"><div class="row"><div><b>' + esc(u.name) + '</b><div class="muted">' + esc(u.email) + (u.phone ? ' · ' + esc(u.phone) : '') + '</div></div><div class="chip info">' + (u.role === 'admin' ? 'Quản trị' : 'Nhân viên') + '</div></div></button>';
     }).join('');
-    return listBar('Tài khoản', '<button type="button" class="round light" data-go="/users/new">' + ico('add') + '</button>') +
-      (rows ? '<div class="list" style="padding-top:12px">' + rows + '</div>' : '<div class="empty">Đang tải...</div>');
+    return listBar('Tài khoản', '<button type="button" class="round light" data-go="/users/new">' + ico('add') + '</button>') + '</div>' +
+      (rows ? '<div class="list">' + rows + '</div>' : '<div class="empty">Đang tải...</div>');
   }
   function viewUserDetail(id) {
     var u = cache.userOne;
@@ -547,7 +596,7 @@
   function viewMore() {
     var admin = user.role === 'admin';
     var name = user.name || 'Người dùng';
-    return listBar('Thêm') + '<div class="gap"></div>' +
+    return listBar('Thêm') + '</div><div class="gap"></div>' +
       '<div class="pad"><div class="soft profile"><div class="avatar">' + esc(initials(name)) + '</div>' +
       '<div><b>' + esc(name) + '</b><div class="muted">' + (admin ? 'Quản trị' : 'Nhân viên') + '</div><div class="muted">' + esc(user.email || '') + '</div></div></div></div>' +
       '<div class="sec"><h3>Nghiệp vụ</h3></div>' +
@@ -583,8 +632,8 @@
         chipBtn('f-sk', '', 'Tất cả', f.stock) + chipBtn('f-sk', 'low', 'Sắp hết', f.stock) + chipBtn('f-sk', 'out', 'Hết hàng', f.stock) + '</div></div>';
     }
     if (key === 'orders' || key === 'stock' || key === 'returns') {
-      html += '<div class="field"><label>Từ ngày</label><input id="f-from" type="date" value="' + esc(f.from) + '"></div>' +
-        '<div class="field"><label>Đến ngày</label><input id="f-to" type="date" value="' + esc(f.to) + '"></div>';
+      html += '<div class="field"><label>Từ ngày</label><input id="f-from" type="date" value="' + esc(f.from) + '"><div class="muted" style="margin-top:6px">Chạm để chọn ngày</div></div>' +
+        '<div class="field"><label>Đến ngày</label><input id="f-to" type="date" value="' + esc(f.to) + '"><div class="muted" style="margin-top:6px">Chạm để chọn ngày</div></div>';
     }
     html += '<button class="btn" type="button" data-apply-filter="' + key + '">Áp dụng</button><div class="gap"></div>' +
       '<button class="btn sec" type="button" data-clear-filter="' + key + '">Xóa lọc</button>';
@@ -598,7 +647,7 @@
     function list(items) {
       return items.filter(function (p) { return p.is_active && (!q || (p.name + ' ' + (p.sku || '')).toLowerCase().indexOf(q) >= 0); }).map(function (p) {
         var off = p.stock_qty <= 0;
-        return '<button type="button" class="item" data-add-p="' + p.id + '" ' + (off ? 'disabled' : '') + '><div class="row"><div><b>' + esc(p.name) + '</b><div class="muted">' + money(p.listed_price) + ' · Còn ' + p.stock_qty + '</div></div></div></button>';
+        return '<button type="button" class="item" data-add-p="' + p.id + '" ' + (off ? 'disabled' : '') + '><div class="row media">' + thumb(p.image_url) + '<div class="grow"><b>' + esc(p.name) + '</b><div class="muted">' + money(p.listed_price) + ' · Còn ' + p.stock_qty + '</div></div></div></button>';
       }).join('') || '<div class="muted">Không có sản phẩm</div>';
     }
     openSheet('<h3>Chọn sản phẩm</h3><div class="field"><input id="pick-q" placeholder="Tìm sản phẩm..."></div><div id="pick-list" class="list" style="padding:0">' + list(cache.products) + '</div>');
@@ -622,7 +671,9 @@
   }
   async function loadOrder(id) {
     cache.order = (await api('/orders/' + id)).data || null;
-    draft.ret = { reason: 'Đổi ý', note: '', qty: {} };
+    if (!draft.ret || String(draft.ret.orderId) !== String(id)) {
+      draft.ret = { orderId: String(id), reason: 'Đổi ý', note: '', qty: {} };
+    }
     render();
   }
   async function loadProducts(q) {
@@ -693,7 +744,13 @@
   function syncOrderDraft() {
     if (!draft.order) return;
     var n = document.getElementById('o-name');
-    if (n) { draft.order.name = n.value; draft.order.phone = document.getElementById('o-phone').value; draft.order.note = document.getElementById('o-note').value; }
+    if (n) {
+      draft.order.name = n.value;
+      draft.order.phone = document.getElementById('o-phone').value;
+      draft.order.address = (document.getElementById('o-address') || {}).value || '';
+      draft.order.shipper = (document.getElementById('o-shipper') || {}).value || '';
+      draft.order.note = document.getElementById('o-note').value;
+    }
   }
 
   document.getElementById('nav').onclick = function (e) {
@@ -747,6 +804,8 @@
         var created = await api('/orders', { method: 'POST', body: {
           customer_name: draft.order.name || null,
           customer_phone: draft.order.phone || null,
+          customer_address: draft.order.address || null,
+          shipper_address: draft.order.shipper || null,
           note: draft.order.note || null,
           items: draft.order.items.map(function (it) {
             return { product_id: it.id, quantity: it.quantity, sale_price: Number(it.sale_price || 0) };
@@ -879,10 +938,10 @@
     if (t.dataset.addP) {
       var p = cache.products.find(function (x) { return String(x.id) === t.dataset.addP; });
       if (!p) return;
-      draft.order = draft.order || { name: '', phone: '', note: '', items: [] };
+      draft.order = draft.order || { name: '', phone: '', address: '', shipper: '', note: '', items: [] };
       var ex = draft.order.items.find(function (x) { return x.id === p.id; });
       if (ex) ex.quantity += 1;
-      else draft.order.items.push({ id: p.id, name: p.name, listed: p.listed_price, stock: p.stock_qty, sale_price: p.listed_price, quantity: 1 });
+      else draft.order.items.push({ id: p.id, name: p.name, listed: p.listed_price, stock: p.stock_qty, sale_price: p.listed_price, quantity: 1, image: p.image_url });
       closeSheet();
       return render();
     }

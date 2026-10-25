@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `code` varchar(255) NOT NULL,
   `customer_name` varchar(255) DEFAULT NULL,
   `customer_phone` varchar(255) DEFAULT NULL,
+  `customer_address` text,
+  `shipper_address` text,
   `status` varchar(20) NOT NULL DEFAULT 'completed',
   `total_amount` bigint unsigned NOT NULL DEFAULT 0,
   `note` text,
